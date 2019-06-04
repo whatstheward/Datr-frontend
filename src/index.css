@@ -7,9 +7,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-html {
-  background-image: url("./pics/couple_login.jpg");
+#root{
+  background: url("./pics/couple_login.jpg") no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
   background-size: cover;
+  height: 100vh;
 }
 
 code {

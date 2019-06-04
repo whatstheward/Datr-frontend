@@ -25,7 +25,7 @@ class LoginForm extends React.Component{
         return(
             <React.Fragment>
             <h1 id="welcome">Welcome to <span id="logo">Datr</span></h1>
-            <div id="wrapper" className="ui container">
+            <div id="wrapper">
                 <Card id="login-component" color="red">
                 <Form onSubmit={()=>{this.handleSubmit()}}>
                     <Form.Field>

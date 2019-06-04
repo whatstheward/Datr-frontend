@@ -2,14 +2,7 @@ input {
     max-width: 30em;
     min-width: 10em;
 }
-#root{
-    background: url("../../pics/couple_login.jpg") no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    min-height: 100%;
-  }
+
 #login-component{
     width: 40em;
     height: 15em;
@@ -19,8 +12,8 @@ input {
 }
 
 #wrapper {
-    /* margin-top: 15%; */
     display: flex;
+    align-items: center;
     justify-content: center;
 }
 
