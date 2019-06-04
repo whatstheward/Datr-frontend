@@ -39,3 +39,15 @@ input {
     font-size: 1.5em;
     font-family: 'Oleo Script Swash Caps', cursive;
 }
+
+#loginBtn{
+    background-color: rgb(160, 7, 7);
+    color: white;
+    font-family: 'Bitter', serif;
+}
+
+#signUpBtn{
+    background-color :rgb(7, 160, 160);
+    color: white;
+    font-family: 'Bitter', serif;
+}
