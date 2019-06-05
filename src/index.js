@@ -4,13 +4,9 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'semantic-ui/dist/semantic.min.css';
-import { createStore } from 'redux'
+import { store } from './store'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router} from 'react-router-dom'
-import rootReducer from './reducers/rootReducer'
-
-const store = createStore(rootReducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 ReactDOM.render(<Provider store={store}>
                     <Router>
