@@ -11,3 +11,10 @@ export function getOrientations(){
 export function getPronouns(){
     return fetch(`${API}/pronouns`).then(res => res.json())
 }
+
+export function getInterests(){
+    return fetch(`${API}/interests`).then(res=>res.json())
+}
+export function getUsers(){
+    return fetch(`${API}/users`).then(res => res.json())
+}
