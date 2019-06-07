@@ -1,9 +1,9 @@
 import React from 'react'
 import './css/LoginForm.css'
-import { Form, Button, Card } from 'semantic-ui-react';
+import { Form, Button, Card, Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { addUser } from '../actions/users'
+import { loginUser } from '../services/backend'
 
 class LoginForm extends React.Component{
 
@@ -17,17 +17,23 @@ class LoginForm extends React.Component{
         this.setState({user:{...this.state.user, [e.target.name]: e.target.value}})
     }
 
-    handleSubmit=()=>{
-        this.props.addUser(this.state.user)
+    handleLogin = () => {
+        loginUser(this.state.user).then(this.props.addUser)
+        this.props.history.push('/profile')
+        
     }
+
+
 
     render(){
         return(
-            <React.Fragment>
+            <Grid>
+            <Grid.Column width={3}/>
+            <Grid.Column width={10} id="mainColumn">
             <h1 id="welcome">Welcome to <span id="logo">Datr</span></h1>
             <div id="wrapper">
                 <Card id="login-component" color="red">
-                <Form onSubmit={()=>{this.handleSubmit()}}>
+                <Form>
                     <Form.Field>
                         <label id="label">Username</label>
                         <input placeholder="Username" name="username" type="text" onChange={(e)=>this.handleChange(e)}/>
@@ -36,22 +42,23 @@ class LoginForm extends React.Component{
                         <label id="label">Password</label>
                         <input placeholder="Password" name="password" type="password" onChange={(e)=>this.handleChange(e)}/>
                     </Form.Field>
-                    <Button id="loginBtn" type="submit">Login</Button>
+                    <Button id="loginBtn" type="submit" onClick={()=>this.handleLogin()}>Login</Button>
                     <Link to="/register" id="signUpBtn" className="ui button">Sign Up</Link>
                 </Form>
                 </Card>
             </div>
-            </React.Fragment>
+            </Grid.Column>
+            <Grid.Column width={3}/>
+            </Grid>
         )
     }
 }
 
+
 const mapDispatchToProps=(dispatch)=>{
     return{
-        addUser: (user) =>{
-            dispatch(addUser(user))
+        addUser: () => dispatch({type: 'LOG_IN', data: !!localStorage.getItem('token')}) 
         }
     }
-}
 
 export default connect(null, mapDispatchToProps)(LoginForm)

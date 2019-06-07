@@ -1,0 +1,38 @@
+#profileBar{
+    display: flex;
+    justify-content: center;
+}
+
+#profileBar > .card{
+    height:75vh;
+}
+
+#profileBar > .card > .image{
+    background-color: white;
+    margin-top: 2em;
+}
+
+#userName{
+    font-family: 'Bitter', serif;
+    font-size: 2em;
+    margin: 1em;
+}
+
+#pronouns{
+    font-size: 50%;
+}
+
+#profileCard{
+    position: relative;
+    overflow-y: scroll;
+    /* add border */
+}
+
+#profileInfo{
+    text-align: left;
+    padding: 10%
+}
+#dateFeed{
+    height: 75vh;
+    overflow-y: scroll;
+}

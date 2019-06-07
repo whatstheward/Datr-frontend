@@ -44,3 +44,7 @@ input {
     color: white;
     font-family: 'Bitter', serif;
 }
+
+#mainColumn{
+    justify-content: center;
+}

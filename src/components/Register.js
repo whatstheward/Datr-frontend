@@ -23,7 +23,7 @@ class Register extends React.Component{
     state={
         firstName: '',
         lastName: '',
-        age: '',
+        age: 18,
         username: '',
         email: '',
         zip_code: '',
@@ -63,8 +63,8 @@ class Register extends React.Component{
         </Form.Field>
         <Form.Field>
             <label>Age</label>
-            <select onChange={(e)=>this.handleChange(e)} id="selectCss" type="integer" name="age" placeholder="Age">
-                {_.range(1, 100).map(int => <option value={int}>{int}</option>)}
+            <select onChange={(e)=>this.handleChange(e)} id="selectCss" type="integer" name="age">
+                {_.range(18, 100).map(int => <option value={int}>{int}</option>)}
             </select>
         </Form.Field>
         </Form.Group>
@@ -129,7 +129,7 @@ class Register extends React.Component{
         </Form.Group>
         <Form.Field>
             <label>Zip Code</label>
-            <input onChange={(e)=>this.handleChange(e)} type="text" name="zipcode" placeholder="Password" />
+            <input onChange={(e)=>this.handleChange(e)} type="text" name="zip_code" placeholder="Password" />
         </Form.Field>
         <Button id="nextBtn" onClick={(e)=> this.handleNext(e)}>Next</Button>
         </React.Fragment> )       
@@ -161,7 +161,7 @@ class Register extends React.Component{
                                 <Feed.Content>
                                 <Feed.Summary>
                                     {user.name}
-                                <Button id="addPartnerBtn" size="tiny" color="red">Add Partner&nbsp;&nbsp;&nbsp;<Icon name="heart" size="regular"/></Button>
+                                <Button id="addPartnerBtn" onClick={(e)=>this.handlePartnerSelect(e, user)} size="tiny" color="red">Add Partner&nbsp;&nbsp;&nbsp;<Icon name="heart" size="regular"/></Button>
                                 </Feed.Summary>
                                 </Feed.Content>
                             </Feed.Event>
@@ -193,7 +193,7 @@ class Register extends React.Component{
                 "https://react.semantic-ui.com/images/wireframe/square-image.png" } 
                 alt="Preview" />
             </div>
-            <Button type="submit" />
+            <Button type="submit">Finish!</Button>
         </React.Fragment>
         )
     }
@@ -210,6 +210,11 @@ class Register extends React.Component{
             }
     }
 
+    handlePartnerSelect=(e, user)=>{
+        e.preventDefault()
+        console.log(user)
+        this.setState({partners:[...this.state.partners, user.id]})
+    }
     handleInterestSelect=(e, value)=>{
         this.setState({interests:[...this.state.interests, value]})
     }
@@ -233,7 +238,6 @@ class Register extends React.Component{
     }
 
     handleSubmit = () => {
-        debugger
         fetch("http://localhost:3000/users", {
             method: 'POST',
             headers: {
@@ -250,7 +254,9 @@ class Register extends React.Component{
                 genders: this.state.genders.value,
                 orientations: this.state.orientations.value,
                 pronouns: this.state.pronouns.value,
-                partners: this.state.partners
+                partners: this.state.partners,
+                password: this.state.password,
+                interests: this.state.interests
             })
         }).then(res=> console.log(res.json()))
     }

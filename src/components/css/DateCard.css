@@ -1,0 +1,11 @@
+#dateCard{
+    width:100%;
+    height: 25vh;
+    justify-content: center;
+}
+
+#dateCardImage{
+    height: 10em;
+    width: 10em;
+    margin:1em;
+}
