@@ -1,11 +1,42 @@
 #dateCard{
-    width:100%;
-    height: 25vh;
+    height: 40em;
+    width: 20em;
+    display: block;
     justify-content: center;
+    margin: 2em;
+    box-shadow: 0em 0em 2em rgba(0, 0, 0, 0.5);
+}
+
+#dateCardHeader{
+    height: 2em;
+    font-size: calc(1em + 1vh);
+    margin: .5em;
+}
+
+#imageFrame{
+    max-height: 20em;
+    min-height: 10em;
+    object-fit: cover;
+    overflow: hidden;
+    background-color: maroon;
+}
+
+#image {
+    max-height: 20em;
+    min-height: 5em;
+    width:auto;
 }
 
 #dateCardImage{
-    height: 10em;
-    width: 10em;
-    margin:1em;
+    object-fit: cover;
+}
+
+#cardButton{
+    margin: .5em;
+    width:auto;
+    font-size: calc(.5em + .5vh)
+}
+
+#categories{
+    font-size: .5em;
 }

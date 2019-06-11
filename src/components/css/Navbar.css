@@ -1,4 +1,5 @@
 #navBar{
+    height: 5em;
     position: sticky;
     z-index: 100;
     width: 100%;

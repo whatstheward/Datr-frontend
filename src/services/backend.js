@@ -32,14 +32,20 @@ export function loginUser(user){
             password: user.password
         })
     }).then(res=>res.json())
-    .then(data => {
-                localStorage.setItem("token", data.token)
-                localStorage.setItem("username", data.user)
-                // this.props.history.push('/')
-    })
+    // .catch(console.log)
+}
+
+export function getRandomDate(interests){
+    return fetch(`${API}/yelp_search?query=${interests}`)
+    .then(res => res.json())
+}
+
+export function getBusinessDetails(id){
+    return fetch(`${API}/yelp_business_details?query=${id}`)
+    .then(res => res.json())
 }
 
 export function getCurrentUser(token){
-    let id = jwt_decode(token).user_id
-        return fetch(`${API}/users/${id}`).then(res=>res.json())
+    const decodedToken = jwt_decode(token)
+        return fetch(`${API}/users/${decodedToken.user_id}`).then(res=>res.json())
 }

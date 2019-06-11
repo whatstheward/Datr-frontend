@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { Menu, Button } from 'semantic-ui-react'
+import { Menu } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import './css/Navbar.css'
 
@@ -14,7 +14,10 @@ class Navbar extends React.Component{
     loggedIn = () => {
         if(this.props.token){
             return(
-            <div class="item"><Button className="primary" onClick={()=>this.logOut()} >Logout</Button></div>
+                <React.Fragment>
+                    <div class="item"><Link to="/date_randomizer">Date Randomizer</Link></div>
+                    <div class="item"><Link to="/" className="primary ui button" onClick={()=>this.logOut()} >Logout</Link></div>
+                </React.Fragment>
             )
         }else{
             return(

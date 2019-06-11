@@ -3,6 +3,10 @@ input {
     min-width: 10em;
 }
 
+#errorMsg{
+    color: red;
+}
+
 #login-component{
     width: 40em;
     height: 15em;

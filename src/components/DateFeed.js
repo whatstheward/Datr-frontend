@@ -1,18 +1,14 @@
 import React from 'react'
 import DateCard from './DateCard'
-import { connect } from 'react-redux'
-import { Feed } from 'semantic-ui-react';
 import './css/DateFeed.css'
 
-const DateFeed = (props) => {
+const DateFeed = () => {
     return(
-            <Feed id="feedContainer">
+            <div id="feedContainer">
                 <DateCard />
                 <DateCard />
-                <DateCard />
-                <DateCard />
-            </Feed>
+            </div>
     )
 }
 
-export default connect()(DateFeed)
+export default DateFeed

@@ -3,24 +3,47 @@ import './css/LoginForm.css'
 import { Form, Button, Card, Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { loginUser } from '../services/backend'
+import { loginUser, getCurrentUser } from '../services/backend'
 
 class LoginForm extends React.Component{
 
     state={
         user:{
         username: '',
-        password: ''
-    }}
+        password: ''},
+        errors: null
+    }
+
+    componentDidUpdate(prevProps){
+        if(prevProps.token !== this.props.token){
+            const currentToken = localStorage.getItem('token')
+        getCurrentUser(currentToken).then(this.props.storeCurrentUser)}
+        else if (this.props.currentUser && prevProps.currentUser !== this.props.currentUser){
+            this.props.history.push('/profile')
+        }
+    }
 
     handleChange = (e) =>{
         this.setState({user:{...this.state.user, [e.target.name]: e.target.value}})
     }
 
     handleLogin = () => {
-        loginUser(this.state.user).then(this.props.addUser)
-        this.props.history.push('/profile')
-        
+        loginUser(this.state.user)
+        .then(data => {
+            if(data.errors){
+                this.setState({errors: data.errors})
+            }else{
+            localStorage.setItem("token", data.token)}})
+        .then(this.props.addUser)
+    }
+
+    checkErrors = () => {
+        if(this.state.errors){
+            return (
+            <div id="errorMsg">
+                {this.state.errors.map(error => <h3>{error}</h3>)}
+            </div>)
+        }
     }
 
 
@@ -33,6 +56,7 @@ class LoginForm extends React.Component{
             <h1 id="welcome">Welcome to <span id="logo">Datr</span></h1>
             <div id="wrapper">
                 <Card id="login-component" color="red">
+                {this.checkErrors()}
                 <Form>
                     <Form.Field>
                         <label id="label">Username</label>
@@ -54,11 +78,19 @@ class LoginForm extends React.Component{
     }
 }
 
+const mapStateToProps = state => {
+    return{
+        token: state.session.token,
+        currentUser: state.user.currentUser
+    }
+}
+
 
 const mapDispatchToProps=(dispatch)=>{
     return{
-        addUser: () => dispatch({type: 'LOG_IN', data: !!localStorage.getItem('token')}) 
+        addUser: () => dispatch({type: 'LOG_IN', data: !!localStorage.getItem('token')}),
+        storeCurrentUser: (data) => dispatch({type:'FETCH_CURRENT_USER', data: data})
         }
     }
 
-export default connect(null, mapDispatchToProps)(LoginForm)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)

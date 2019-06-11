@@ -238,6 +238,7 @@ class Register extends React.Component{
     }
 
     handleSubmit = () => {
+        debugger
         fetch("http://localhost:3000/users", {
             method: 'POST',
             headers: {
@@ -258,7 +259,7 @@ class Register extends React.Component{
                 password: this.state.password,
                 interests: this.state.interests
             })
-        }).then(res=> console.log(res.json()))
+        })
     }
     render(){
         return(
