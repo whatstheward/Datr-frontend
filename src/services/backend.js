@@ -49,3 +49,44 @@ export function getCurrentUser(token){
     const decodedToken = jwt_decode(token)
         return fetch(`${API}/users/${decodedToken.user_id}`).then(res=>res.json())
 }
+
+export function saveDatePlan(datePlan, method="POST"){
+    if(method === "POST"){
+    fetch(`${API}/user_dates`,{
+        method: `${method}`,
+        headers:{
+            'Content-Type': 'application/json',
+            'auth-token': localStorage.getItem('token')
+        },
+        body: JSON.stringify({datePlan})
+    })}else if(method==="PATCH"){
+        let id = datePlan.id
+        fetch(`${API}/user_dates/${id}`,{
+            method: "PUT",
+            headers:{
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem('token')
+            },
+            body: JSON.stringify({datePlan})
+        })
+    }
+}
+
+export function getCurrentUserDates(token){
+    return fetch(`${API}/user_dates`, {
+        method: 'GET',
+        headers: {
+            "auth-token": localStorage.getItem('token')
+        }
+    })
+    .then(res=> res.json())
+}
+
+export function deleteUserDate(id){
+    fetch(`${API}/user_dates/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'auth-token': localStorage.getItem('token')
+        }
+    }).then(console.log)
+}

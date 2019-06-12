@@ -10,6 +10,7 @@ import userReducer from './reducers/userReducer'
 import sessionReducer from './reducers/sessionReducer'
 import dateReducer from './reducers/dateReducer'
 import buildDateReducer from './reducers/buildDateReducer';
+import userDateReducer from './reducers/userDateReducer';
 
 
 const rootReducer = (state={}, action) =>{
@@ -31,6 +32,7 @@ const appReducer = combineReducers({
     session: sessionReducer,
     date: dateReducer,
     buildDate: buildDateReducer,
+    userDates: userDateReducer,
     root: rootReducer
 })
 

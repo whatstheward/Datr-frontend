@@ -1,0 +1,24 @@
+#calendar{
+    display: flex;
+    justify-content: flex-start;
+    height: 60vh;
+    width: 100%;
+}
+
+#carouselFrame{
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    overflow:scroll;
+}
+
+#dateViewCard{
+    overflow: scroll;
+    margin: 0 1em;
+    display: flex;
+    justify-content: flex-start;
+}
+
+#dateViewCard img {
+    width: 10em;
+}

@@ -212,7 +212,6 @@ class Register extends React.Component{
 
     handlePartnerSelect=(e, user)=>{
         e.preventDefault()
-        console.log(user)
         this.setState({partners:[...this.state.partners, user.id]})
     }
     handleInterestSelect=(e, value)=>{

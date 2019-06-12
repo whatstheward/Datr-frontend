@@ -6,16 +6,16 @@ import _ from 'lodash'
 import { Grid, Container, Form, Dropdown, Button } from 'semantic-ui-react';
 import './css/DateRandomizer.css'
 import { getRandomDate } from '../services/backend'
-import DateCard from './DateCard';
+import RandomDateCard from './RandomDateCard';
+import DateCheckOut from './DateCheckOut';
 
 class DateRandomizer extends React.Component {
 
     state={
         partners: [],
-        interests: [],
-        startDate: new Date()
+        startDate: new Date(),
+        activities: []
     }
-
     
     handlePartnerSelect = (e, value) => {
         this.setState({partners:[value]})
@@ -41,8 +41,8 @@ class DateRandomizer extends React.Component {
     render(){
         return(
             <Grid>
-                <Grid.Column width={3}/>
-                <Grid.Column width={10}>
+                <Grid.Column width={4}/>
+                <Grid.Column width={8}>
                     <Container id="dateContainer">
                         <h2>Welcome to the Date Randomizer</h2>
                         <Form id="dateForm" onSubmit={(e)=>this.handleSubmit(e)}>
@@ -50,6 +50,7 @@ class DateRandomizer extends React.Component {
                             <Form.Field>
                             <label>With whom?</label>
                             <Dropdown
+                                defaultValue={this.props.currentDate ? this.props.currentDate.partners : this.state.partners}
                                 onChange={(e, { value })=>this.handlePartnerSelect(e, value)}
                                 id="multiSelect"
                                 placeholder='Partners'
@@ -58,7 +59,7 @@ class DateRandomizer extends React.Component {
                                 search
                                 selection
                                 options={_.map(this.props.user.partners, function(value){
-                                return {key: value.id, text: value.name, value: value.id}
+                                return {key: value.id, text: value.name, value: {id: value.id, name: value.name}}
                             })}
                             />
                             </Form.Field>
@@ -92,21 +93,23 @@ class DateRandomizer extends React.Component {
                         <Grid.Row id="dateCardContainer">
                         <Grid.Column id="dateColumn" width={8}>
                         {this.props.dates.length > 2 ?
-                            <DateCard />
+                            <RandomDateCard />
                         :
                         null
                         }
                         </Grid.Column>
                         <Grid.Column id="dateColumn" width={8}>
                         {this.props.dates.length > 2 ?
-                            <DateCard />
+                            <RandomDateCard />
                         :
                         null
                         }
                         </Grid.Column>
                         </Grid.Row>
                     </Container>
-                    <Grid.Column width={3}/>
+                </Grid.Column>
+                <Grid.Column width={4}>
+                    <DateCheckOut />
                 </Grid.Column>
             </Grid>
         )
@@ -116,7 +119,8 @@ class DateRandomizer extends React.Component {
 const mapStateToProps = (state) => {
     return{
     user: state.user.currentUser,
-    dates: state.date.list
+    dates: state.date.list,
+    currentDate: state.buildDate
     }
 }
 
