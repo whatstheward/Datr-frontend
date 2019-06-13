@@ -1,0 +1,13 @@
+#editCard{
+    width: 100%;
+    height:100vh;
+    margin-top: 1vh;
+    display: flex;
+    justify-content: center;
+}
+
+#editCard > .form{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}

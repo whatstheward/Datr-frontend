@@ -1,7 +1,9 @@
 #profilePage{
     justify-content: center;
 }
-
+#edit{
+    width: 10em;
+}
 #profileBar{
     display: flex;
     justify-content: center;

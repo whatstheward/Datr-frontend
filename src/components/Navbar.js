@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { Menu } from 'semantic-ui-react'
+import { Menu, Image } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import './css/Navbar.css'
 
@@ -14,30 +14,34 @@ class Navbar extends React.Component{
     loggedIn = () => {
         if(this.props.token){
             return(
-                <React.Fragment>
-                    <div class="item"><Link to="/date_randomizer">Date Randomizer</Link></div>
-                    <div class="item"><Link to="/" className="primary ui button" onClick={()=>this.logOut()} >Logout</Link></div>
-                </React.Fragment>
+                <div className="right menu">
+                    <div className="item"><Link to="/date_randomizer">Date Randomizer</Link></div>
+                    <div className="item"><Link to="/profile"><Image size="mini" src={this.props.currentUser.image} alt="Profile Picture"/></Link></div>
+                    <div className="item"><Link to="/" className="primary ui button" onClick={()=>this.logOut()} >Logout</Link></div>
+                </div>
             )
         }else{
             return(
-            <div class="item"><Link to="/register" className="ui primary button">Sign Up</Link></div>)
+            <React.Fragment>
+                <div className="right menu">
+                    <div className="item"><Link to="/register" className="ui primary button">Sign Up</Link></div>
+                </div>
+            </React.Fragment>
+            )
     }}
     
     render(){
         return(
         <Menu id="navBar">
-            <Link to="/" class="item">Home</Link>
-            <div class="right menu">
                 {this.loggedIn()}
-            </div>
         </Menu>
     )}
 }
 
     const mapPropsToState = (state) => {
         return{
-        token: state.session.token
+        token: state.session.token,
+        currentUser: state.user.currentUser
         }
     }
 

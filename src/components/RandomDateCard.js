@@ -21,7 +21,7 @@ class RandomDateCard extends React.Component{
     }
 
     saveTheDate = () => {
-        this.props.addDateEvent(this.state.currentDate[0])
+        this.props.addDateEvent(this.state.currentDate)
     }
 
     randomNumber = () =>{
@@ -32,7 +32,11 @@ class RandomDateCard extends React.Component{
     randomDate=()=>{
     const index = this.randomNumber()
     const businessID = this.props.randomDates[index].id
-    getBusinessDetails(businessID).then(data => this.setState({currentDate: [...this.state.currentDate, data]})) 
+    if(this.props.datePlan.length > 0 && this.props.datePlan.filter(a => a.id === businessID).length > 0){
+        this.randomDate()
+    }else{
+    getBusinessDetails(businessID).then(data => this.setState({currentDate: data})) 
+        }
     }
 
     dateLoaded=()=>{
@@ -48,19 +52,22 @@ class RandomDateCard extends React.Component{
         <Card fluid id="dateCard" >
         { this.dateLoaded() ?
             <React.Fragment>
-            <Card.Header id="dateCardHeader">{this.state.currentDate[0].name}
-            <Card.Meta id="categories">{this.state.currentDate[0].categories.map(category => <span>{category.title}</span>)}</Card.Meta>
+            <Card.Header id="dateCardHeader">{this.state.currentDate.name}
+            <Card.Meta id="categories">{this.state.currentDate.categories ? 
+            this.state.currentDate.categories.map(category => <span>{category.title}</span>)
+            :
+            null}</Card.Meta>
             </Card.Header>
                 <div id="imageFrame">
-                    <img id="image" src={this.state.currentDate[0].image_url} alt={this.state.currentDate[0].name}/>
+                    <img id="image" src={this.state.currentDate.image_url} alt={this.state.currentDate.name}/>
                 </div>
             <Card.Content id="cardInfo">
-                <h4 id="link"><a href={this.state.currentDate[0].url} target="blank">Yelp Page</a>
+                <h4 id="link"><a href={this.state.currentDate.url} target="blank">Yelp Page</a>
                 <br/>
-                Rating: {this.state.currentDate[0].rating}
+                Rating: {this.state.currentDate.rating}
                 </h4>
-                <h5>{this.state.currentDate[0].location.display_address[0]}<br/>
-                    {this.state.currentDate[0].location.display_address[1]}</h5>
+                <h5>{this.state.currentDate.location.display_address[0]}<br/>
+                    {this.state.currentDate.location.display_address[1]}</h5>
             </Card.Content>
             <Button id="cardButton" className="ui button red" onClick={()=>this.randomDate()}>Reroll</Button>
             <Button id="cardButton" className="ui button red" onClick={()=>this.saveTheDate()}>Add To Date</Button>
@@ -75,7 +82,8 @@ class RandomDateCard extends React.Component{
 
 const mapStateToProps = (state) => {
     return{
-        randomDates: state.date.list
+        randomDates: state.date.list,
+        datePlan: state.buildDate.activities
     }
 }
 

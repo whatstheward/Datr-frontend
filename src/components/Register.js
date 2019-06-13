@@ -1,6 +1,7 @@
 import React from 'react'
 import './css/Register.css'
 import _ from 'lodash'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Grid, Card, Form, Dropdown, Button, Feed, Image, Icon } from 'semantic-ui-react';
 import { getGenders, getOrientations, getPronouns, getInterests, getUsers } from '../services/backend'
@@ -33,7 +34,8 @@ class Register extends React.Component{
         interests: [],
         partners: [],
         preview: null,
-        page: 1
+        page: 1,
+        submitted: false
 
     }
 
@@ -237,7 +239,6 @@ class Register extends React.Component{
     }
 
     handleSubmit = () => {
-        debugger
         fetch("http://localhost:3000/users", {
             method: 'POST',
             headers: {
@@ -258,9 +259,13 @@ class Register extends React.Component{
                 password: this.state.password,
                 interests: this.state.interests
             })
-        })
+        }).then(res => res.json())
+        .then(this.props.login)
     }
     render(){
+        if(this.props.loggedIn){
+            return <Redirect to='/profile' />
+        }else{
         return(
             <Grid>
                 <Grid.Column width={5}></Grid.Column>
@@ -279,11 +284,13 @@ class Register extends React.Component{
             </Grid>
         )
     }
+    }
 
 }
 
 let mapStateToProps = (state) => {
     return {
+        loggedIn: state.session.token,
         genderOptions: state.gender.list,
         orientationOptions: state.orientation.list,
         pronounOptions: state.pronoun.list,
@@ -298,7 +305,9 @@ let mapDispatchToProps = (dispatch) => {
       storeOrientations: (data) => dispatch({type: 'FETCH_ORIENTATIONS', data: data}),
       storePronouns: (data) => dispatch({type: 'FETCH_PRONOUNS', data: data }),
       storeInterests: (data) => dispatch({type: 'FETCH_INTERESTS', data: data}),
-      storeUsers: (data) => dispatch ({type: 'FETCH_USERS', data: data.users})
+      storeUsers: (data) => dispatch ({type: 'FETCH_USERS', data: data.users}),
+      login: (data) => dispatch({type:"LOG_IN", data: data})
+
     }
   }
 

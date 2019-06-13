@@ -88,5 +88,5 @@ export function deleteUserDate(id){
         headers: {
             'auth-token': localStorage.getItem('token')
         }
-    }).then(console.log)
+    })
 }

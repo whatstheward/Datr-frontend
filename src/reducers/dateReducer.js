@@ -1,7 +1,8 @@
 export default (state={list: [], viewedDates: []}, action)=>{
     switch (action.type){
         case "FETCH_BUSINESS":
-            return {...state, list: action.data}
+            let newList = [...state.list, action.data]
+            return {...state, list: newList.flat()}
         case "ADD_DATE":
             let newDates = state.viewedDates.concat(action.data)
             return {...state, viewedDates: newDates}

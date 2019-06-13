@@ -7,7 +7,9 @@ import './css/DateCalendar.css'
 class DateCalendar extends React.Component{
 
     componentDidMount(){
-        getCurrentUserDates().then(this.props.storeUserDates)
+        getCurrentUserDates().then(data => {if(data.user_dates > 0){
+            this.props.userDates(data)
+        }})
     }
 
     renderDates = () => {

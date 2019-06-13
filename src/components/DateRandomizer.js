@@ -13,29 +13,30 @@ class DateRandomizer extends React.Component {
 
     state={
         partners: [],
-        startDate: new Date(),
+        interests:[],
+        startDate: "",
         activities: []
     }
     
     handlePartnerSelect = (e, value) => {
-        this.setState({partners:[value]})
+        this.setState({partners: value})
+        this.props.storePartners(value)
     }
-   
+
     handleInterestSelect = (e, value) => {
-        const newValue = value.join(",").toLowerCase().replace(/\s/g, '')
+        let newValue = this.state.interests.concat(value[value.length-1])
         this.setState({interests: newValue})
     }
 
     handleChange=(date)=>{
         this.setState({startDate: date})
+        this.props.storeDateTime(date)
     }
 
     handleSubmit = (e) => {
         // e.preventDefault()
-        this.props.storePartners(this.state.partners)
-        this.props.storeDateTime(this.state.startDate)
-        const interests = this.state.interests
-        getRandomDate(interests).then(this.props.storeBusinesses)
+        this.state.interests.forEach(interest =>
+        getRandomDate(interest).then(this.props.storeBusinesses))
     }
 
     render(){
@@ -50,17 +51,16 @@ class DateRandomizer extends React.Component {
                             <Form.Field>
                             <label>With whom?</label>
                             <Dropdown
-                                defaultValue={this.props.currentDate ? this.props.currentDate.partners : this.state.partners}
                                 onChange={(e, { value })=>this.handlePartnerSelect(e, value)}
-                                id="multiSelect"
-                                placeholder='Partners'
+                               id="multiSelect"
+                                placeholder='Interests'
                                 fluid
                                 multiple
                                 search
                                 selection
                                 options={_.map(this.props.user.partners, function(value){
-                                return {key: value.id, text: value.name, value: {id: value.id, name: value.name}}
-                            })}
+                                return {key: value, text: value.name, value: value}}
+                            )}
                             />
                             </Form.Field>
                             <Form.Field>
@@ -68,8 +68,6 @@ class DateRandomizer extends React.Component {
                             <DatePicker
                                 selected={this.state.startDate}
                                 onChange={this.handleChange}
-                                showTimeSelect
-                                dateFormat="Pp"
                                 />
                             </Form.Field>
                             <Form.Field>

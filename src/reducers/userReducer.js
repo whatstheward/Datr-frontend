@@ -4,6 +4,19 @@ export default (state = {list: [], currentUser: {}}, action)=>{
             return {...state, list: action.data}
         case 'FETCH_CURRENT_USER':
             return {...state, currentUser: action.data}
+        case 'EDIT_CURRENT_USER_INTERESTS':
+            let newInterests = [...state.currentUser.interests, action.data]
+            return {...state, currentUser:{ ...state.currentUser, interests: newInterests}}
+        case 'EDIT_CURRENT_USER_GENDERS':
+            return state
+        case 'EDIT_CURRENT_USER_ORIENTATIONS':
+            return state  
+        case 'EDIT_CURRENT_USER_AGE':
+            return state
+        case 'EDIT_CURRENT_USER_PRONOUNS':
+            return state  
+        case 'EDIT_CURRENT_USER_NAME':
+            return state
         default:
             return state
     }
