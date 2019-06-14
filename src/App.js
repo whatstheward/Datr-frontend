@@ -11,6 +11,8 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 
 
 class App extends React.Component{
+
+
   
   render(){
     return (
@@ -26,7 +28,7 @@ class App extends React.Component{
                                               <Redirect to="/profile"/>
                                               :
                                               <Register /> } />
-        <Route exact path="/profile" render={()=> this.props.loggedIn ? 
+        <Route path="/profile/:id" render={()=> this.props.loggedIn ? 
                                             <ProfileContainer />
                                             :
                                             <Redirect to="/" /> } />
@@ -46,7 +48,7 @@ class App extends React.Component{
 
 const mapStateToProps = (state) => {
   return{
-      loggedIn: state.session.token
+      loggedIn: state.session.token,
   }
 }
 

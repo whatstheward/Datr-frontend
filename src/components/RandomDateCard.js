@@ -66,8 +66,14 @@ class RandomDateCard extends React.Component{
                 <br/>
                 Rating: {this.state.currentDate.rating}
                 </h4>
-                <h5>{this.state.currentDate.location.display_address[0]}<br/>
+                {
+                    this.state.currentDate.location.display_address ?
+                    <h5>
+                    {this.state.currentDate.location.display_address[0]}<br/>
                     {this.state.currentDate.location.display_address[1]}</h5>
+                    :
+                    null
+                }
             </Card.Content>
             <Button id="cardButton" className="ui button red" onClick={()=>this.randomDate()}>Reroll</Button>
             <Button id="cardButton" className="ui button red" onClick={()=>this.saveTheDate()}>Add To Date</Button>

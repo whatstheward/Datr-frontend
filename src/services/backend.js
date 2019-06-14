@@ -1,6 +1,13 @@
 import jwt_decode from 'jwt-decode'
 
 const API = 'http://localhost:3000'
+const AUTHORIZE = {
+    method: 'GET',
+    headers:{
+        'auth-token': localStorage.getItem('token'),
+        'Content-Type': 'application/json'
+        }
+    }
 
 export function getGenders(){
     return fetch(`${API}/genders`).then(res => res.json())
@@ -21,6 +28,16 @@ export function getUsers(){
     return fetch(`${API}/users`).then(res => res.json())
 }
 
+export function searchUsers(query){
+    return fetch(`${API}/user_search?query=${query}`,{
+        method: 'GET',
+        headers:{
+            'auth-token': localStorage.getItem('token'),
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res.json())
+}
+
 export function loginUser(user){
     return fetch(`${API}/login`,{
         method: 'POST',
@@ -32,25 +49,37 @@ export function loginUser(user){
             password: user.password
         })
     }).then(res=>res.json())
-    // .catch(console.log)
 }
 
 export function getRandomDate(interests){
-    return fetch(`${API}/yelp_search?query=${interests}`)
+    return fetch(`${API}/yelp_search?query=${interests}`, AUTHORIZE)
     .then(res => res.json())
 }
 
 export function getBusinessDetails(id){
-    return fetch(`${API}/yelp_business_details?query=${id}`)
+    return fetch(`${API}/yelp_business_details?query=${id}`, AUTHORIZE)
     .then(res => res.json())
 }
 
 export function getCurrentUser(token){
     const decodedToken = jwt_decode(token)
-        return fetch(`${API}/users/${decodedToken.user_id}`).then(res=>res.json())
+        return fetch(`${API}/current_user/${decodedToken.user_id}`).then(res=>res.json())
 }
 
+export function getUserProfile(id){
+    return fetch(`${API}/users/${id}}`, {
+            method: 'GET',
+            headers:{
+                'auth-token': localStorage.getItem('token'),
+                'Content-Type': 'application/json'
+                }
+        }).then(res=>res.json())
+}
+
+
+
 export function saveDatePlan(datePlan, method="POST"){
+    
     if(method === "POST"){
     fetch(`${API}/user_dates`,{
         method: `${method}`,
@@ -72,21 +101,33 @@ export function saveDatePlan(datePlan, method="POST"){
     }
 }
 
-export function getCurrentUserDates(token){
-    return fetch(`${API}/user_dates`, {
+export function getCurrentUserDates(id){
+    return fetch(`${API}/user_dates?query=${id}`, {
         method: 'GET',
-        headers: {
-            "auth-token": localStorage.getItem('token')
-        }
-    })
-    .then(res=> res.json())
+            headers:{
+                'auth-token': localStorage.getItem('token'),
+                'Content-Type': 'application/json'
+                }
+    }).then(res=> res.json())
 }
 
 export function deleteUserDate(id){
     fetch(`${API}/user_dates/${id}`, {
         method: 'DELETE',
-        headers: {
-            'auth-token': localStorage.getItem('token')
-        }
+            headers:{
+                'auth-token': localStorage.getItem('token'),
+                'Content-Type': 'application/json'
+                }
     })
+}
+
+export function sendPartnerRequest(user, partner){
+    fetch(`${API}/relationships`,{
+        method: 'POST',
+        headers:{
+            'auth-token': localStorage.getItem('token'),
+            'Content-Type': 'application/json'
+            },
+        body: JSON.stringify({relationship: {user_id: user.id, partner_id: partner.id, confirmed: 0}})
+    }).then(res=>res.json()).then(console.log)
 }

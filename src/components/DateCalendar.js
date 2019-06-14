@@ -4,30 +4,17 @@ import { getCurrentUserDates } from '../services/backend';
 import DateView from './DateView'
 import './css/DateCalendar.css'
 
-class DateCalendar extends React.Component{
-
-    componentDidMount(){
-        getCurrentUserDates().then(data => {if(data.user_dates > 0){
-            this.props.userDates(data)
-        }})
-    }
-
-    renderDates = () => {
-        this.props.userDates.map(date => <DateView date={date} />)
-    }
-
-    render(){
+const DateCalendar = props =>{ 
         return(
             <div id="carouselFrame">
                 <div id="calendar">
-                    {this.props.userDates.length > 0 ? this.props.userDates.map(date=> <DateView date={date}/>) 
+                    {props.userDates.length > 0 ? props.userDates.map(date=> <DateView date={date}/>) 
                     : 
                     null}
                 </div>
             </div>
         )
     }
-}
 
 const mapDispatchToProps = dispatch => {
     return{

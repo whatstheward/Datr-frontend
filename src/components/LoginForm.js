@@ -2,7 +2,7 @@ import React from 'react'
 import './css/LoginForm.css'
 import { Form, Button, Card, Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { loginUser, getCurrentUser } from '../services/backend'
 
 class LoginForm extends React.Component{
@@ -17,11 +17,9 @@ class LoginForm extends React.Component{
     componentDidUpdate(prevProps){
         if(prevProps.token !== this.props.token){
             const currentToken = localStorage.getItem('token')
-        getCurrentUser(currentToken).then(this.props.storeCurrentUser)}
-        else if (this.props.currentUser && prevProps.currentUser !== this.props.currentUser){
-            this.props.history.push('/profile')
+        getCurrentUser(currentToken).then(data => { this.props.storeViewUser(data)
+                                                    this.props.storeCurrentUser(data)})}
         }
-    }
 
     handleChange = (e) =>{
         this.setState({user:{...this.state.user, [e.target.name]: e.target.value}})
@@ -49,6 +47,9 @@ class LoginForm extends React.Component{
 
 
     render(){
+        if(this.props.token){
+            return <Redirect to={`/profile/${this.props.currentUser.id}`} />
+        }
         return(
             <Grid>
             <Grid.Column width={3}/>
@@ -89,7 +90,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps=(dispatch)=>{
     return{
         addUser: () => dispatch({type: 'LOG_IN', data: !!localStorage.getItem('token')}),
-        storeCurrentUser: (data) => dispatch({type:'FETCH_CURRENT_USER', data: data})
+        storeCurrentUser: (data) => dispatch({type:'FETCH_CURRENT_USER', data: data}),
+        storeViewUser:  (data) => dispatch({type:"FETCH_USER_PROFILE", data: data})
+
         }
     }
 

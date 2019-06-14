@@ -40,7 +40,7 @@ const persistConfig = {
     key: 'root',
     storage: storage,
     stateReconciler: autoMergeLevel1,
-    whitelist: ['user']
+    whitelist: ['user', 'userDates']
 }
 
 const pReducer = persistReducer(persistConfig, appReducer)

@@ -16,7 +16,6 @@ export default (state={partners:"", dateTime: "", activities:[], interests:[]}, 
             let newState ={id: action.data.id, partners: action.data.partners, dateTime: action.data.time, activities: action.data.events, method: "PATCH"}
             return newState
         case "SAVE_DATE":
-            debugger
             return state
         default:
             return state

@@ -1,9 +1,11 @@
-export default (state = {list: [], currentUser: {}}, action)=>{
+export default (state = {list: [], currentUser: {}, viewUser: {}}, action)=>{
     switch(action.type){
         case 'FETCH_USERS':
             return {...state, list: action.data}
         case 'FETCH_CURRENT_USER':
             return {...state, currentUser: action.data}
+        case 'FETCH_USER_PROFILE':
+            return{...state, viewUser: action.data }
         case 'EDIT_CURRENT_USER_INTERESTS':
             let newInterests = [...state.currentUser.interests, action.data]
             return {...state, currentUser:{ ...state.currentUser, interests: newInterests}}

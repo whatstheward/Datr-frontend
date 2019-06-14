@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { Card, Icon } from 'semantic-ui-react';
+import { Link, withRouter } from 'react-router-dom'
+import { Card, Icon, Button } from 'semantic-ui-react';
 import './css/DateCheckOut.css'
 import { saveDatePlan } from '../services/backend';
 
@@ -27,9 +27,10 @@ const DateCheckout = (props) =>{
                 </ul>
                 </h5>
             </Card.Content>
-            <Link to="/profile" className="ui button" onClick={()=>{
-                this.props.clearCheckOut()
-                saveDatePlan(props.date, props.date.method)}}>Plan it!</Link>
+            <Button className="ui button" onClick={()=>{
+                props.clearCheckOut()
+                saveDatePlan(props.date, props.date.method)
+                props.history.push(`/profile/${props.currentUser.id}`)}}>Plan it!</Button>
         </Card>
     )
 }
@@ -45,8 +46,9 @@ const mapDispatchToProps = dispatch => {
     return{
         removeEvent: (data) => dispatch({type:"REMOVE_EVENT", data: data}),
         removePartner: (data) => dispatch({type:"REMOVE_PARTNER", data: data}),
-        clearCheckOut: () => dispatch({type:"SAVE_DATE"})
+        clearCheckOut: () => dispatch({type:"SAVE_DATE"}),
+        storeViewUser: (data) => dispatch({type:"VIEW_USER_PROFILE", data: data})
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DateCheckout)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(DateCheckout))

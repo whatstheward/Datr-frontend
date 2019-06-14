@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 import { Grid, Container, Form, Dropdown, Button } from 'semantic-ui-react';
 import './css/DateRandomizer.css'
-import { getRandomDate } from '../services/backend'
+import { getRandomDate, getInterests } from '../services/backend'
 import RandomDateCard from './RandomDateCard';
 import DateCheckOut from './DateCheckOut';
 
@@ -17,6 +17,10 @@ class DateRandomizer extends React.Component {
         startDate: "",
         activities: []
     }
+
+    componentDidMount(){
+        getInterests().then(this.props.storeInterests)
+    }
     
     handlePartnerSelect = (e, value) => {
         this.setState({partners: value})
@@ -24,7 +28,11 @@ class DateRandomizer extends React.Component {
     }
 
     handleInterestSelect = (e, value) => {
-        let newValue = this.state.interests.concat(value[value.length-1])
+        let newValue
+        if(e.target.className === "delete icon"){
+            newValue = value
+        }else{
+            newValue = this.state.interests.concat(value[value.length-1])}
         this.setState({interests: newValue})
     }
 
@@ -34,9 +42,9 @@ class DateRandomizer extends React.Component {
     }
 
     handleSubmit = (e) => {
-        // e.preventDefault()
-        this.state.interests.forEach(interest =>
-        getRandomDate(interest).then(this.props.storeBusinesses))
+        this.state.interests.forEach(interest =>{
+            getRandomDate(interest).then(this.props.storeBusinesses)})
+            this.setState({interests: []})
     }
 
     render(){
@@ -76,12 +84,13 @@ class DateRandomizer extends React.Component {
                                 onChange={(e, { value })=>this.handleInterestSelect(e, value)}
                                 id="multiSelect"
                                 placeholder='Interests'
+                                value={this.state.interests}
                                 fluid
                                 multiple
                                 search
                                 selection
-                                options={_.map(this.props.user.interests, function(value){
-                                return {key: value.id, text: value.interest, value: value.interest}
+                                options={_.map(this.props.interests, function(value){
+                                return {key: value.id, text: value.name, value: value.name}
                             })}
                             />
                             </Form.Field>
@@ -118,7 +127,8 @@ const mapStateToProps = (state) => {
     return{
     user: state.user.currentUser,
     dates: state.date.list,
-    currentDate: state.buildDate
+    currentDate: state.buildDate,
+    interests: state.interest.list
     }
 }
 
@@ -126,7 +136,8 @@ const mapDispatchToProps = dispatch =>{
     return{
         storeBusinesses: (data) => dispatch({type: "FETCH_BUSINESS", data: data}),
         storePartners: (data) => dispatch({type:"ADD_PARTNER", data: data}),
-        storeDateTime: (data) => dispatch({type:"ADD_DATE_TIME", data: data})
+        storeDateTime: (data) => dispatch({type:"ADD_DATE_TIME", data: data}),
+        storeInterests: (data) => dispatch({type:"FETCH_INTERESTS", data: data})
     }
 }
 

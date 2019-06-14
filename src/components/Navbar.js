@@ -1,10 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { Menu, Image } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import './css/Navbar.css'
+import SearchBar from './SearchBar';
 
 class Navbar extends React.Component{
+
+    goToProfile = () => {
+        this.props.storeViewUser(this.props.currentUser)
+        this.props.history.push(`/profile/${this.props.currentUser.id}`)
+    }
 
     logOut=()=>{
         localStorage.clear()
@@ -15,8 +21,9 @@ class Navbar extends React.Component{
         if(this.props.token){
             return(
                 <div className="right menu">
+                    <SearchBar />
                     <div className="item"><Link to="/date_randomizer">Date Randomizer</Link></div>
-                    <div className="item"><Link to="/profile"><Image size="mini" src={this.props.currentUser.image} alt="Profile Picture"/></Link></div>
+                    <div className="item"><Image size="mini"  onClick={()=> this.goToProfile() }src={this.props.currentUser.image} alt="Profile Picture"/></div>
                     <div className="item"><Link to="/" className="primary ui button" onClick={()=>this.logOut()} >Logout</Link></div>
                 </div>
             )
@@ -45,4 +52,10 @@ class Navbar extends React.Component{
         }
     }
 
-export default connect(mapPropsToState)(Navbar)
+    const mapDispatchToProps = dispatch => {
+        return {
+        storeViewUser: data => dispatch({type:"FETCH_USER_PROFILE", data: data})
+        }
+    }
+
+export default connect(mapPropsToState, mapDispatchToProps)(withRouter(Navbar))

@@ -10,7 +10,7 @@ import './css/ProfileEdit.css'
 class ProfileEdit extends React.Component {
 
     handleInterestSelect=(e, value)=>{
-        debugger
+        
         this.props.storeEditedInterests(value[value.length-1])
 
     }
@@ -53,8 +53,7 @@ class ProfileEdit extends React.Component {
                 {_.range(18, 100).map(int => <option value={int}>{int}</option>)}
             </select>
             <h4>Location: </h4><input defaultValue={this.props.user.zip_code} onChange={(e)=>this.handleChange(e)} type="text" name="zip_code" placeholder="Password" />
-            </Form.Group>
-            
+            </Form.Group>            
             <h4>Genders:</h4>
             <ul>
             {this.props.user.genders ? this.props.user.genders.map(gender => <li>{gender.name}<Icon onClick={(e)=> this.handleDelete(e, gender)} name="delete"/></li>):null}
