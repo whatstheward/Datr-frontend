@@ -19,6 +19,7 @@ class DateRandomizer extends React.Component {
     }
 
     componentDidMount(){
+        this.props.clearBusinesses()
         getInterests().then(this.props.storeInterests)
     }
     
@@ -42,6 +43,7 @@ class DateRandomizer extends React.Component {
     }
 
     handleSubmit = (e) => {
+        this.props.clearBusinesses()
         this.state.interests.forEach(interest =>{
             getRandomDate(interest).then(this.props.storeBusinesses)})
             this.setState({interests: []})
@@ -66,7 +68,7 @@ class DateRandomizer extends React.Component {
                                 multiple
                                 search
                                 selection
-                                options={_.map(this.props.user.partners, function(value){
+                                options={_.map(this.props.partners, function(value){
                                 return {key: value, text: value.name, value: value}}
                             )}
                             />
@@ -128,13 +130,15 @@ const mapStateToProps = (state) => {
     user: state.user.currentUser,
     dates: state.date.list,
     currentDate: state.buildDate,
-    interests: state.interest.list
+    interests: state.interest.list,
+    partners: state.user.confirmedPartners
     }
 }
 
 const mapDispatchToProps = dispatch =>{
     return{
         storeBusinesses: (data) => dispatch({type: "FETCH_BUSINESS", data: data}),
+        clearBusinesses: () => dispatch({type: "CLEAR_BUSINESSES"}),
         storePartners: (data) => dispatch({type:"ADD_PARTNER", data: data}),
         storeDateTime: (data) => dispatch({type:"ADD_DATE_TIME", data: data}),
         storeInterests: (data) => dispatch({type:"FETCH_INTERESTS", data: data})

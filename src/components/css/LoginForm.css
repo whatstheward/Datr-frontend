@@ -12,7 +12,8 @@ input {
     height: 15em;
     display: flex;
     justify-content: center;
-    background: rgb(199, 198, 198, 0.75)
+    background: #ebf5ec99;
+
 }
 
 #wrapper {
@@ -28,24 +29,27 @@ input {
 }
 
 #welcome{
-    color: white;
+    color: #ebf5ec;
     font-family: 'Bitter', serif;
+    text-shadow: -2px 2px 2px #34373f ;
 }
 
 #logo{
-    font-size: 1.5em;
+    font-size: 2em;
     font-family: 'Oleo Script Swash Caps', cursive;
+    color: #dcca78;
+    text-shadow: -2px 2px 2px #34373f ;
 }
 
 #loginBtn{
-    background-color: rgb(160, 7, 7);
-    color: white;
+    background-color: #e4877d;
+    color: #34373f;
     font-family: 'Bitter', serif;
 }
 
 #signUpBtn{
-    background-color :rgb(7, 160, 160);
-    color: white;
+    background-color: #dcca78;
+    color: #34373f;
     font-family: 'Bitter', serif;
 }
 

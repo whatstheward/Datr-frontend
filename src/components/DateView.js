@@ -12,30 +12,41 @@ const DateView = (props) => {
         <Card.Content>
             <Card.Header>Date on {props.date.time.substring(0, props.date.time.indexOf(','))}
             <br/>
-            @{props.date.time.substring(props.date.time.indexOf(',')+1)}
+            {props.date.time.substring(props.date.time.indexOf(',')+1)}
             </Card.Header>
             <h4>
                 With: {props.date.partners.map(partner=> <li>{partner.name}</li>)}
             </h4>
                 {props.date.events.map(event => {
                     return(
-                        <Segment raised>
+                        <Segment id="dateEvent">
                         <h4>{event.name}</h4>
                         <Image src={event.image_url} alt={event.name} />
                         </Segment>
                 )})}
         </Card.Content>
+        { props.currentUser.id === props.user.id ?
         <Card.Content extra>
-        <Link to="/date_randomizer" 
+        <Link id="editBtn" to="/date_randomizer" 
             className="ui button"
             onClick={()=>{
             props.editDate(props.date)}}>Edit</Link>
-        <Button onClick={()=>{ 
+        <Button id="deleteBtn" onClick={()=>{ 
             props.deleteUserDate(props.date.id)
             deleteUserDate(props.date.id)}}>Delete</Button>
         </Card.Content>
+        :
+        null
+        }
         </Card>
     )
+}
+
+const mapStateToProps = state => {
+    return{
+        currentUser: state.user.currentUser,
+        user: state.user.viewUser
+    }
 }
 
 const mapDispatchToProps = dispatch =>{
@@ -45,4 +56,4 @@ const mapDispatchToProps = dispatch =>{
     }
 }
 
-export default connect(null, mapDispatchToProps)(DateView)
+export default connect(mapStateToProps, mapDispatchToProps)(DateView)

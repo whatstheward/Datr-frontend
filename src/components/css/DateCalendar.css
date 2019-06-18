@@ -9,17 +9,46 @@
     justify-content: center;
     width: 100%;
     height: auto;
-    overflow:scroll;
+    overflow-x:scroll;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
 }
+#carouselFrame::-webkit-scrollbar { width: 0 !important }
 
 #dateViewCard{
-    overflow: scroll;
+    
+    background: #ebf5ec;
+    overflow-y: scroll;
     min-width: 20em;
     margin: 0 1em;
     display: flex;
     justify-content: flex-start;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
 }
+#dateViewCard::-webkit-scrollbar { width: 0 !important }
 
 #dateViewCard img {
     width: 10em;
+}
+
+#dateEvent{
+    color: #34373f;
+    font-family: 'Bitter', serif; 
+    background:  #34373f30;
+    box-shadow: 0px 0px 10px 0px #34373f;
+}
+
+#editBtn{
+    margin-bottom: 1em;
+    background: #e4877d;
+    color: #34373f;
+    font-family: 'Bitter', serif; 
+}
+
+#deleteBtn{
+    margin-bottom: 1em;
+    background: #34373f;
+    color: #e4877d;
+    font-family: 'Bitter', serif; 
 }

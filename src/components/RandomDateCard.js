@@ -47,6 +47,20 @@ class RandomDateCard extends React.Component{
         }
     }
 
+    checkForAddress = () => {
+        if(this.state.currentDate.location.display_address) {
+            return(<h5>
+            {this.state.currentDate.location.display_address[0]}<br/>
+            {this.state.currentDate.location.display_address[1]}
+            </h5>)
+        }else{
+            return(
+                <h5></h5>
+            )
+
+        }
+    }
+
     render(){
     return(
         <Card fluid id="dateCard" >
@@ -67,12 +81,7 @@ class RandomDateCard extends React.Component{
                 Rating: {this.state.currentDate.rating}
                 </h4>
                 {
-                    this.state.currentDate.location.display_address ?
-                    <h5>
-                    {this.state.currentDate.location.display_address[0]}<br/>
-                    {this.state.currentDate.location.display_address[1]}</h5>
-                    :
-                    null
+                    this.checkForAddress()
                 }
             </Card.Content>
             <Button id="cardButton" className="ui button red" onClick={()=>this.randomDate()}>Reroll</Button>

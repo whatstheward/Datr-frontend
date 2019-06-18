@@ -16,8 +16,8 @@ import userDateReducer from './reducers/userDateReducer';
 const rootReducer = (state={}, action) =>{
     switch(action.type){
         case "LOG_OUT":
-            state = null
-            return appReducer(state, action)
+            let newState = {}
+            return newState
         default:
             return state
     }
@@ -40,7 +40,7 @@ const persistConfig = {
     key: 'root',
     storage: storage,
     stateReconciler: autoMergeLevel1,
-    whitelist: ['user', 'userDates']
+    whitelist: ['user','userDates']
 }
 
 const pReducer = persistReducer(persistConfig, appReducer)
@@ -49,7 +49,7 @@ const pReducer = persistReducer(persistConfig, appReducer)
 
 
 export const store = createStore(
-    pReducer,
+        pReducer,
         window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     )
 

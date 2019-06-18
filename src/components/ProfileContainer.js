@@ -1,44 +1,80 @@
 import React from 'react'
 import './css/ProfileContainer.css'
-import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Grid, Card, Image, Button, Icon, Modal, Header } from 'semantic-ui-react';
+import { Redirect } from 'react-router-dom'
+import { Grid, Card, Image, Button, Icon, Modal, Header, Confirm } from 'semantic-ui-react';
 import DateCalendar from './DateCalendar';
-import { getCurrentUserDates, sendPartnerRequest } from '../services/backend';
+import { deleteUser } from '../services/backend';
 
 
 class ProfileContainer extends React.Component {
 
     state={
-        edit: false,
-        isPartner: false,
-        isPendingPartner: false,
-        isActive: false
+        isPartner: [],
+        isPendingPartner: [],
+        modalOpen: false,
+        exists: !!this.props.currentUser,
     }
+
+    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
     closeConfigShow = (closeOnEscape, closeOnDimmerClick) => () => {
         this.setState({ closeOnEscape, closeOnDimmerClick, open: true })
     }
     
     close = () => this.setState({ open: false })
+    show = () => this.setState({ modalOpen: true })
+    handleConfirm = () => { 
+                            this.setState({ modalOpen: false })
+                            fetch(`http://localhost:3000/users/${this.props.currentUser.id}`, {
+                                method: 'DELETE',
+                                    headers:{
+                                        'auth-token': localStorage.getItem('token'),
+                                        'Content-Type': 'application/json'
+                                        }
+                            }).then(res =>{
+                                if(res.status === 200){
+                                localStorage.clear()
+                                this.props.logOut(!!localStorage.getItem('token'))
+                                this.props.deleteUser()
+                                this.setState({exists: !this.state.exists})}
+                                }
+                            )
+                            
+                            
+                        }
+    handleCancel = () => this.setState({ modalOpen: false })
 
     componentDidMount(){
-        getCurrentUserDates(this.props.user.id).then(data => {if(data.user_dates > 0){
-            this.props.storeUserDates(data.user_dates)}})
+        if(this.props.pendingPartners){
+            this.setState({isPendingPartner: this.props.pendingPartners.some(partner => partner.id===this.props.user.id)})}
+        if(this.props.confirmedPartners){
+            this.setState({isPartner: this.props.confirmedPartners.some(partner => partner.id === this.props.user.id)})}
+            
+            
     }
 
     componentDidUpdate(prevProps){
-        if(prevProps.user.id !== this.props.user.id){
-        getCurrentUserDates(this.props.user.id).then(this.props.storeUserDates)
-        if(!!this.props.currentUser.confirmedPartners){
-            this.setState({isPartner: this.props.user.confirmedPartners.some(partner => this.props.currentUser.id===partner.partnerID)})}
-        if (!!this.props.currentUser.pendingPartners){
-            this.setState({isPendingPartner: this.props.currentUser.pendingPartners.some(partner => partner.partnerID===this.props.user.id)})}}
+        if(this.props.confirmedPartners && prevProps.user !== this.props.user ){
+        this.setState({isPartner: this.props.confirmedPartners.some(partner => partner.id === this.props.user.id)})}
+        if(this.props.pendingPartners && prevProps.pendingPartners !== this.props.pendingPartners ){
+            this.setState({isPendingPartner: this.props.pendingPartners.some(partner => partner.id===this.props.user.id)})}
         }
         
 
         handlePartnerRequest=()=>{
-            sendPartnerRequest(this.props.currentUser, this.props.user)
+            fetch(`http://localhost:3000/relationships`,{
+                method: 'POST',
+                headers:{
+                    'auth-token': localStorage.getItem('token'),
+                    'Content-Type': 'application/json'
+                    },
+                body: JSON.stringify({relationship: {user_id: this.props.currentUser.id, partner_id: this.props.user.id, confirmed: 0}})
+            }).then(res => res.json()).then(data => {
+                if(data.errors){
+                    alert(data.errors)
+                }else{
+                this.props.updatePending(data)}})
         }
     
     
@@ -65,9 +101,11 @@ class ProfileContainer extends React.Component {
 
     render=()=>{
         const { open, closeOnEscape, closeOnDimmerClick } = this.state
-        if(this.state.edit) {
-            return <Redirect to='edit_profile'/>
-            }else{
+        if(this.state.exists == false){
+            this.props.logOut()
+            
+            return <Redirect to="/"/>
+        }else{
         return(
             
             <Grid id="profilePage">
@@ -105,32 +143,39 @@ class ProfileContainer extends React.Component {
                         <br/>
                         <br/>
                         <p id="pronouns">{this.props.user.pronouns ? this.props.user.pronouns.map(pronoun => <span>{pronoun.name}</span>):null}</p>
+                        </Card.Header>
+                        {this.renderProfileView()}
                         { this.props.currentUser.id === this.props.user.id ?
-                        <Button onClick={()=>this.setState({edit: !this.state.edit})} active={this.state.edit} id="edit" size="tiny">Edit Profile   <Icon name="edit"/></Button>
+                            <div>
+                                <Button negative onClick={this.show}>Delete Profile</Button>
+                                <Confirm
+                                open={this.state.modalOpen}
+                                header='This will permanently delete your profile'
+                                cancelButton='Never mind'
+                                confirmButton="I'm sure"
+                                onCancel={this.handleCancel}
+                                onConfirm={this.handleConfirm}
+                                />
+                            </div>
                         :
                         null
                         }
-                        </Card.Header>
-                        {this.renderProfileView()}
                     </Card>
                 :
                 null
             }
             </Grid.Column>
             <Grid.Column width={10}>
-            {this.props.dates.length > 0 && (this.props.currentUser.id === this.props.user.id || this.state.isPartner) ?
+            {this.state.exists && this.props.currentUser.id === this.props.user.id || this.state.isPartner ?
             <DateCalendar userDates={this.props.dates} />
             :
-            <Card >
-                <h1>No Dates Yet!</h1>
-            </Card>
+                null
             }
             </Grid.Column>
             </Grid> 
-                )
+                )}
             }
         }
-    }
 
 
 const mapStateToProps = state => {
@@ -142,13 +187,17 @@ const mapStateToProps = state => {
         orientationOptions: state.orientation.list,
         pronounOptions: state.pronoun.list,
         interestOptions: state.interest.list,
-        partner: state.user.viewUser.partners
+        partner: state.user.viewUser.partners,
+        pendingPartners: state.user.pendingPartners,
+        confirmedPartners: state.user.confirmedPartners
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return{
-        storeUserDates: (data) => dispatch({type:"FETCH_USER_DATES", data: data})
+        updatePending: (data) => dispatch({type: "STORE_PENDING_PARTNER", data: data}),
+        deleteUser: () => dispatch({type: "CLEAR_USER"}),
+        logOut: (data) => dispatch({type: 'LOG_OUT', data: data})
     }
 }
 

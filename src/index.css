@@ -8,13 +8,15 @@ body {
 }
 
 #root{
-  background: url("./pics/couple_login.jpg") no-repeat center center;
+  background: url("./pics/couple_login.jpg") no-repeat;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
   height: 100vh;
   overflow: hidden;
+  font-family: 'Bitter', serif;
+  list-style: none;
 }
 
 code {

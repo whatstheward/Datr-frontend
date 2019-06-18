@@ -14,13 +14,6 @@ class LoginForm extends React.Component{
         errors: null
     }
 
-    componentDidUpdate(prevProps){
-        if(prevProps.token !== this.props.token){
-            const currentToken = localStorage.getItem('token')
-        getCurrentUser(currentToken).then(data => { this.props.storeViewUser(data)
-                                                    this.props.storeCurrentUser(data)})}
-        }
-
     handleChange = (e) =>{
         this.setState({user:{...this.state.user, [e.target.name]: e.target.value}})
     }
@@ -44,11 +37,23 @@ class LoginForm extends React.Component{
         }
     }
 
+    componentDidUpdate(prevProps){
+        if(prevProps.currentUser !== this.props.currentUser){
+            this.props.history.push(`/profile/${this.props.currentUser.id}`)
+        }
+    }
+
 
 
     render(){
         if(this.props.token){
-            return <Redirect to={`/profile/${this.props.currentUser.id}`} />
+            getCurrentUser(localStorage.token).then(data => { 
+                if(data.status === 404){
+                    localStorage.clear()
+                }else{
+                this.props.storeCurrentUser(data)
+                this.props.storeViewUser(data)}
+            })
         }
         return(
             <Grid>
@@ -56,9 +61,9 @@ class LoginForm extends React.Component{
             <Grid.Column width={10} id="mainColumn">
             <h1 id="welcome">Welcome to <span id="logo">Datr</span></h1>
             <div id="wrapper">
-                <Card id="login-component" color="red">
+                <Card id="login-component">
                 {this.checkErrors()}
-                <Form>
+                <Form onSubmit={()=>this.handleLogin()}>
                     <Form.Field>
                         <label id="label">Username</label>
                         <input placeholder="Username" name="username" type="text" onChange={(e)=>this.handleChange(e)}/>
@@ -67,7 +72,7 @@ class LoginForm extends React.Component{
                         <label id="label">Password</label>
                         <input placeholder="Password" name="password" type="password" onChange={(e)=>this.handleChange(e)}/>
                     </Form.Field>
-                    <Button id="loginBtn" type="submit" onClick={()=>this.handleLogin()}>Login</Button>
+                    <Button id="loginBtn" type="submit" >Login</Button>
                     <Link to="/register" id="signUpBtn" className="ui button">Sign Up</Link>
                 </Form>
                 </Card>
@@ -80,7 +85,7 @@ class LoginForm extends React.Component{
 }
 
 const mapStateToProps = state => {
-    return{
+    return{ 
         token: state.session.token,
         currentUser: state.user.currentUser
     }
@@ -92,7 +97,6 @@ const mapDispatchToProps=(dispatch)=>{
         addUser: () => dispatch({type: 'LOG_IN', data: !!localStorage.getItem('token')}),
         storeCurrentUser: (data) => dispatch({type:'FETCH_CURRENT_USER', data: data}),
         storeViewUser:  (data) => dispatch({type:"FETCH_USER_PROFILE", data: data})
-
         }
     }
 

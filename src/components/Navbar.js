@@ -4,6 +4,7 @@ import { Menu, Image } from 'semantic-ui-react'
 import { Link, withRouter } from 'react-router-dom'
 import './css/Navbar.css'
 import SearchBar from './SearchBar';
+import PartnerRequest from './PartnerRequest';
 
 class Navbar extends React.Component{
 
@@ -23,6 +24,8 @@ class Navbar extends React.Component{
                 <div className="right menu">
                     <SearchBar />
                     <div className="item"><Link to="/date_randomizer">Date Randomizer</Link></div>
+                    <PartnerRequest />
+                    {/* Add Date Requests */}
                     <div className="item"><Image size="mini"  onClick={()=> this.goToProfile() }src={this.props.currentUser.image} alt="Profile Picture"/></div>
                     <div className="item"><Link to="/" className="primary ui button" onClick={()=>this.logOut()} >Logout</Link></div>
                 </div>
@@ -54,7 +57,8 @@ class Navbar extends React.Component{
 
     const mapDispatchToProps = dispatch => {
         return {
-        storeViewUser: data => dispatch({type:"FETCH_USER_PROFILE", data: data})
+        storeViewUser: (data) => dispatch({type:"FETCH_USER_PROFILE", data: data}),
+        clearDateState: () => dispatch({type:"SAVE_DATE"})
         }
     }
 

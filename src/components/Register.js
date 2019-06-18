@@ -4,7 +4,7 @@ import _ from 'lodash'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Grid, Card, Form, Dropdown, Button, Feed, Image, Icon } from 'semantic-ui-react';
-import { getGenders, getOrientations, getPronouns, getInterests, getUsers } from '../services/backend'
+import { getGenders, getOrientations, getPronouns, getInterests, getUsers, getCurrentUser } from '../services/backend'
 import Avatar from 'react-avatar-edit'
 
 class Register extends React.Component{
@@ -35,7 +35,8 @@ class Register extends React.Component{
         partners: [],
         preview: null,
         page: 1,
-        submitted: false
+        submitted: false,
+        errors: []
 
     }
 
@@ -49,7 +50,7 @@ class Register extends React.Component{
 
     renderPageOne = () =>{
         return (
-        <React.Fragment>
+        <div id="flexContainer">
         <Form.Group>
         <Form.Field>
             <label>First Name</label>
@@ -115,11 +116,11 @@ class Register extends React.Component{
             />
         </Form.Field>
         </Form.Group>
+        <Form.Group>
         <Form.Field>
             <label>Email</label>
             <input onChange={(e)=>this.handleChange(e)} type="text" name="email" placeholder="Email" />
         </Form.Field>
-        <Form.Group>
         <Form.Field>
             <label>Password</label>
             <input onChange={(e)=>this.handleChange(e)} type="password" name="password" placeholder="Password" />
@@ -128,13 +129,12 @@ class Register extends React.Component{
             <label>Confirm Password</label>
             <input onChange={(e)=>this.handleChange(e)} type="password" name="passwordConfirm" placeholder="Password" />
         </Form.Field>
-        </Form.Group>
         <Form.Field>
             <label>Zip Code</label>
             <input onChange={(e)=>this.handleChange(e)} type="text" name="zip_code" placeholder="Password" />
         </Form.Field>
-        <Button id="nextBtn" onClick={(e)=> this.handleNext(e)}>Next</Button>
-        </React.Fragment> )       
+        </Form.Group>
+        </div> )       
     } 
 
     renderPageTwo = () =>{
@@ -143,7 +143,6 @@ class Register extends React.Component{
             <div id="checkboxes">
                     {this.props.interestOptions.map(interest => <Form.Checkbox onChange={(e, { value })=>this.handleInterestSelect(e, value)} label={interest.name} value={interest.id}/>)}
             </div>
-            <Button id="nextBtn" onClick={(e)=> this.handleNext(e)}>Next</Button>
             </React.Fragment>
         )
     }
@@ -155,10 +154,17 @@ class Register extends React.Component{
                 <Card id="partnersContainer">
                         <Card.Content>
                         <Feed>
-                        {this.props.userOptions.map(user => 
+                        {this.props.userOptions.map(user => {
+                            if(this.state.partners.some(partner => partner === user.id)){
+                                return null
+                                }else{
+                                return(
                             <Feed.Event>
                                 <Feed.Label> 
-                                    <Image src='https://react.semantic-ui.com/images/wireframe/square-image.png' size='medium' circular />
+                                    <Image src={user.image ? 
+                                    user.image
+                                    :
+                                    'https://react.semantic-ui.com/images/wireframe/square-image.png'} size='medium' circular />
                                 </Feed.Label>
                                 <Feed.Content>
                                 <Feed.Summary>
@@ -167,11 +173,12 @@ class Register extends React.Component{
                                 </Feed.Summary>
                                 </Feed.Content>
                             </Feed.Event>
-                        )}
+                                )
+                            }
+                        })}
                         </Feed>
                         </Card.Content>
                 </Card>
-                <Button id="nextBtn" onClick={(e)=> this.handleNext(e)}>Next</Button>
             </React.Fragment>
         )
     }
@@ -195,7 +202,6 @@ class Register extends React.Component{
                 "https://react.semantic-ui.com/images/wireframe/square-image.png" } 
                 alt="Preview" />
             </div>
-            <Button type="submit">Finish!</Button>
         </React.Fragment>
         )
     }
@@ -237,6 +243,10 @@ class Register extends React.Component{
         e.preventDefault()
         this.setState({page: this.state.page + 1})
     }
+    handleBack = (e) => {
+        e.preventDefault()
+        this.setState({page: this.state.page - 1})
+    }
 
     handleSubmit = () => {
         fetch("http://localhost:3000/users", {
@@ -260,26 +270,55 @@ class Register extends React.Component{
                 interests: this.state.interests
             })
         }).then(res => res.json())
-        .then(this.props.login)
+        .then(data=>{
+            if(data.errors){
+                this.setState({errors: data.errors})
+            }else{
+            localStorage.setItem("token", data.token)
+            this.props.login()}}
+            )
+        }
+
+    checkForErrors = () =>{
+        if(this.state.errors.length > 0){
+            return(
+                <ul>
+                    {this.state.errors.map(error => <li id="error">{error}</li>)}
+                </ul>
+            )
+        }
     }
     render(){
         if(this.props.loggedIn){
-            return <Redirect to='/profile' />
+            getCurrentUser(localStorage.token).then(data=>{ this.props.storeViewUser(data)
+                                                            
+                                                            this.props.storeCurrentUser(data)})
+            return (<Redirect to={`/profile/${this.props.currentUser.id}`} />)
         }else{
         return(
             <Grid>
-                <Grid.Column width={5}></Grid.Column>
-                <Grid.Column id="mainColumn" width={6}>
+                <Grid.Column width={4}></Grid.Column>
+                <Grid.Column id="mainColumn" width={8}>
                 <Card id="formContainer" color="red">
                     <Form id="registerForm" onSubmit={(e)=>this.handleSubmit(e)}>
+                    {this.checkForErrors()}
                 { 
                     this.renderForm()
                 }
-                
+                {this.state.page > 1 ?
+                    <Button id="nextBtn"  size="small" onClick={(e)=> this.handleBack(e)}>Back</Button>
+                    : 
+                    null
+                    }
+                {this.state.page < 4 ?
+                    <Button id="nextBtn" size="small" onClick={(e)=> this.handleNext(e)}>Next</Button>
+                :
+                    <Button id="nextBtn" type="submit">Finish!</Button>        
+                }
                     </Form>
                 </Card>
                 </Grid.Column>
-                <Grid.Column width={5}></Grid.Column>
+                <Grid.Column width={4}></Grid.Column>
 
             </Grid>
         )
@@ -295,7 +334,8 @@ let mapStateToProps = (state) => {
         orientationOptions: state.orientation.list,
         pronounOptions: state.pronoun.list,
         interestOptions: state.interest.list,
-        userOptions: state.user.list
+        userOptions: state.user.list,
+        currentUser: state.user.currentUser
     }
   }
 
@@ -306,7 +346,9 @@ let mapDispatchToProps = (dispatch) => {
       storePronouns: (data) => dispatch({type: 'FETCH_PRONOUNS', data: data }),
       storeInterests: (data) => dispatch({type: 'FETCH_INTERESTS', data: data}),
       storeUsers: (data) => dispatch ({type: 'FETCH_USERS', data: data.users}),
-      login: (data) => dispatch({type:"LOG_IN", data: data})
+      login: () => dispatch({type:"LOG_IN", data: !!localStorage.getItem("token")}),
+      storeCurrentUser: (data) => dispatch({type: "FETCH_CURRENT_USER", data: data}),
+      storeViewUser: (data) => dispatch({type:"FETCH_USER_PROFILE", data:data})
 
     }
   }

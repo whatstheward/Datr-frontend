@@ -24,7 +24,7 @@ class App extends React.Component{
       }
       <Switch>
         <Route exact path="/" component={ LoginForm } />
-        <Route path="/register" render={() => this.props.loggedIn ? 
+        <Route path="/register" render={() => this.props.currentUser && this.props.loggedIn ? 
                                               <Redirect to="/profile"/>
                                               :
                                               <Register /> } />

@@ -10,11 +10,12 @@
 }
 
 #profileBar > .card{
+    background-color: #ebf5ec;
     height:75vh;
 }
 
 #profileBar > .card > .image{
-    background-color: white;
+    background-color: #ebf5ec;
     margin-top: 2em;
 }
 
@@ -22,6 +23,7 @@
     font-family: 'Bitter', serif;
     font-size: 2em;
     margin: 1em;
+    color: #34373f;
 }
 
 #pronouns{
@@ -31,19 +33,34 @@
 #profileCard{
     position: relative;
     overflow-y: scroll;
-    /* add border */
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
 }
+#profileCard::-webkit-scrollbar { width: 0 !important }
 
 #profileInfo{
     text-align: left;
     padding: 10%
 }
+
+#profileInfo > h4 {
+    font-family: 'Bitter', serif;
+}
+
 #dateFeed{
     height: 75vh;
     overflow-y: scroll;
 }
 
+
 #request{
     margin-top:-2em;
     margin-left: 6em;
+}
+
+#profileCard > div:nth-child(4) > button {
+    background-color: #e4877D;
+    color: #34373f;
+    font-family: 'Bitter', serif;
+    margin-bottom: 1em;
 }

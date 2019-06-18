@@ -52,18 +52,31 @@ export function loginUser(user){
 }
 
 export function getRandomDate(interests){
-    return fetch(`${API}/yelp_search?query=${interests}`, AUTHORIZE)
+    let searchTerm = interests.split(' ').join('+')
+    return fetch(`${API}/yelp_search?query=${searchTerm}`, {
+        method: 'GET',
+        headers:{
+            'auth-token': localStorage.getItem('token'),
+            'Content-Type': 'application/json'
+            }
+        })
     .then(res => res.json())
 }
 
 export function getBusinessDetails(id){
-    return fetch(`${API}/yelp_business_details?query=${id}`, AUTHORIZE)
+    return fetch(`${API}/yelp_business_details?query=${id}`, {
+        method: 'GET',
+        headers:{
+            'auth-token': localStorage.getItem('token'),
+            'Content-Type': 'application/json'
+            }
+        })
     .then(res => res.json())
 }
 
 export function getCurrentUser(token){
-    const decodedToken = jwt_decode(token)
-        return fetch(`${API}/current_user/${decodedToken.user_id}`).then(res=>res.json())
+    const decodedToken = jwt_decode(token).user_id
+        return fetch(`${API}/current_user/${decodedToken}`).then(res=>res.json())
 }
 
 export function getUserProfile(id){
@@ -101,7 +114,7 @@ export function saveDatePlan(datePlan, method="POST"){
     }
 }
 
-export function getCurrentUserDates(id){
+export function getCurrentUserDates(id=jwt_decode(localStorage.token).user_id){
     return fetch(`${API}/user_dates?query=${id}`, {
         method: 'GET',
             headers:{
@@ -120,6 +133,15 @@ export function deleteUserDate(id){
                 }
     })
 }
+export function deleteUser(id){
+    fetch(`${API}/users/${id}`, {
+        method: 'DELETE',
+            headers:{
+                'auth-token': localStorage.getItem('token'),
+                'Content-Type': 'application/json'
+                }
+    }).then(res => res.json())
+}
 
 export function sendPartnerRequest(user, partner){
     fetch(`${API}/relationships`,{
@@ -129,5 +151,16 @@ export function sendPartnerRequest(user, partner){
             'Content-Type': 'application/json'
             },
         body: JSON.stringify({relationship: {user_id: user.id, partner_id: partner.id, confirmed: 0}})
-    }).then(res=>res.json()).then(console.log)
+    }).then(res=>res.json())
+}
+
+export function updatePartnerRequest(request, update){
+    fetch(`${API}/relationships/${request.relationshipID}`,{
+        method: 'PATCH',
+        headers:{
+            'auth-token': localStorage.getItem('token'),
+            'Content-Type': 'application/json'
+            },
+        body: JSON.stringify({relationship: {confirmed: update}})
+    }).then(res=>res.json())
 }

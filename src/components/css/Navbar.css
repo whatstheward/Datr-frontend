@@ -1,6 +1,23 @@
 #navBar{
+    background:#ebf5ec;
     height: 5em;
     position: sticky;
     z-index: 100;
     width: 100%;
+    border: none;
+}
+
+#search{
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 1em;
+}
+
+#navBar > div > div > a{
+    font-family: 'Bitter', serif;
+     color: #34373f;
+}
+
+#navBar > div > div:nth-child(5) >a{
+    background-color: #e4877d
 }

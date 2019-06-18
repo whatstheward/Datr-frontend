@@ -29,9 +29,10 @@ class SearchBar extends React.Component {
 
     render(){
         return(
-        <Grid>
+        <Grid id="search">
         <Grid.Column width={6}>
-            <Search loading={this.state.isLoading}
+            <Search 
+            loading={this.state.isLoading}
             onResultSelect={this.handleResultSelect}
             onSearchChange={_.debounce(this.handleSearchChange, 500, {
             leading: true,
