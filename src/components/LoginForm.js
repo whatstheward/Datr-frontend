@@ -2,7 +2,7 @@ import React from 'react'
 import './css/LoginForm.css'
 import { Form, Button, Card, Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { loginUser, getCurrentUser } from '../services/backend'
 
 class LoginForm extends React.Component{

@@ -1,13 +1,6 @@
 import jwt_decode from 'jwt-decode'
 
 const API = 'http://localhost:3000'
-const AUTHORIZE = {
-    method: 'GET',
-    headers:{
-        'auth-token': localStorage.getItem('token'),
-        'Content-Type': 'application/json'
-        }
-    }
 
 export function getGenders(){
     return fetch(`${API}/genders`).then(res => res.json())
@@ -92,7 +85,6 @@ export function getUserProfile(id){
 
 
 export function saveDatePlan(datePlan, method="POST"){
-    
     if(method === "POST"){
     fetch(`${API}/user_dates`,{
         method: `${method}`,
@@ -101,7 +93,8 @@ export function saveDatePlan(datePlan, method="POST"){
             'auth-token': localStorage.getItem('token')
         },
         body: JSON.stringify({datePlan})
-    })}else if(method==="PATCH"){
+    }).then(res => res.json()).then(data => {return data})
+}else if(method==="PATCH"){
         let id = datePlan.id
         fetch(`${API}/user_dates/${id}`,{
             method: "PUT",
@@ -110,7 +103,7 @@ export function saveDatePlan(datePlan, method="POST"){
                 'auth-token': localStorage.getItem('token')
             },
             body: JSON.stringify({datePlan})
-        })
+        }).then(res => res.json())
     }
 }
 

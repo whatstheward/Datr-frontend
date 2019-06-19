@@ -1,9 +1,31 @@
 #dateContainer{
-    margin-top: 6.5em;
+    margin-top: 6em;
     padding: 3em;
     width: 100%;
     height: 100vh;
-    background-color: rgb(242, 236, 236, .75);
+    background-color: #ebf5ec;
+    overflow: scroll;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+}
+#dateContainer::-webkit-scrollbar { width: 0 !important }
+
+#label{
+    font-size: 1.5em;
+    color: #34373f;
+}
+
+#header{
+    font-size: 4em;
+    font-family: 'Oleo Script Swash Caps', cursive;
+    color: #dcca78;
+    text-shadow: -2px 2px 2px #34373f ;
+}
+
+#btn{
+    background-color: #e4877d;
+    color: #34373f;
+    font-family: 'Bitter', serif;
 }
 
 #dateColumn{
@@ -14,6 +36,7 @@
 #dateCardContainer{
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 #group{
@@ -36,8 +59,8 @@
 
 #multiSelect{
     height: auto;
-    min-width: 15em;
-    max-width: 25em;
+    min-width: 5em;
+    width: 10em;
     width: 100%;
     object-fit: cover;
 }

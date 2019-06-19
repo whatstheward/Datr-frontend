@@ -1,6 +1,16 @@
 #requests{
     min-width: 20em;
     padding: .5em;
+    background-color:#ebf5ec; 
+}
+
+#requests > h4{
+    font-family: 'Bitter', serif;
+    color: #34373f;
+}
+
+#navBar > div > div.ui.item.dropdown{
+    font-family: 'Bitter', serif;
 }
 
 #requestsImg{

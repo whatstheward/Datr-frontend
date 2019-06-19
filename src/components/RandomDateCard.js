@@ -21,7 +21,11 @@ class RandomDateCard extends React.Component{
     }
 
     saveTheDate = () => {
-        this.props.addDateEvent(this.state.currentDate)
+        if(this.props.datePlan.length < 5){
+            this.props.addDateEvent(this.state.currentDate)
+        }else{
+            alert("C'mon... you're not gonna do all of that")
+        }
     }
 
     randomNumber = () =>{
@@ -55,7 +59,7 @@ class RandomDateCard extends React.Component{
             </h5>)
         }else{
             return(
-                <h5></h5>
+                <h5>Address not provided</h5>
             )
 
         }
@@ -63,7 +67,7 @@ class RandomDateCard extends React.Component{
 
     render(){
     return(
-        <Card fluid id="dateCard" >
+        <Card id="dateCard" >
         { this.dateLoaded() ?
             <React.Fragment>
             <Card.Header id="dateCardHeader">{this.state.currentDate.name}
@@ -84,8 +88,10 @@ class RandomDateCard extends React.Component{
                     this.checkForAddress()
                 }
             </Card.Content>
-            <Button id="cardButton" className="ui button red" onClick={()=>this.randomDate()}>Reroll</Button>
-            <Button id="cardButton" className="ui button red" onClick={()=>this.saveTheDate()}>Add To Date</Button>
+            <Card.Content extra>
+            <Button id="rerollBtn" size="small" onClick={()=>this.randomDate()}>Reroll</Button>
+            <Button id="saveBtn" size="small" onClick={()=>this.saveTheDate()}>Save</Button>
+            </Card.Content>
             </React.Fragment>
             :
             null

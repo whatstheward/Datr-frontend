@@ -7,17 +7,17 @@ import { getCurrentUserDates } from '../services/backend';
 class DateCalendar extends React.Component{ 
 
     componentDidMount(){
-        if(this.props.token){
             
-        getCurrentUserDates(this.props.user.id).then(data => this.props.storeUserDates(data.user_dates))}
+        getCurrentUserDates(this.props.user.id).then(data => this.props.storeUserDates(data.user_dates))
     }
 
     componentDidUpdate(prevProps){
-        if(this.props.token){
-        if(prevProps.user.id !== this.props.user.id && this.props.token){
-            
+        if(prevProps.user.id !== this.props.user.id && this.props.token){    
         getCurrentUserDates(this.props.user.id).then(data => this.props.storeUserDates(data.user_dates))
-        }}
+        }
+        // if(prevProps.userDates !== this.props.userDates){
+        // getCurrentUserDates(this.props.user.id).then(data => this.props.storeUserDates(data.user_dates))            
+    
     }
     
     

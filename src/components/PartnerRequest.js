@@ -1,9 +1,7 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
 import './css/PartnerRequest.css'
-import { Dropdown, Image, Segment, Grid, Button } from 'semantic-ui-react'
-import { connect } from 'react-redux'
-import { getUserProfile, updatePartnerRequest } from '../services/backend';
+import { Dropdown, Image, Grid, Button } from 'semantic-ui-react'
+import { connect } from 'react-redux' 
 
 class PartnerRequest extends React.Component{
 
@@ -33,7 +31,10 @@ class PartnerRequest extends React.Component{
 
     render(){
         return (
-            <Dropdown item direction="left" text='Friend Requests'>
+            <Dropdown item direction="left" text='Friend Requests' style={this.props.partnerRequests.length > 0 ?
+            {color:'#dcca78'}
+            :
+            null}>
             <Dropdown.Menu id="requests">
                     {this.props.partnerRequests && this.props.partnerRequests.length > 0 ?
                         this.props.partnerRequests.map(requester => 
@@ -55,7 +56,7 @@ class PartnerRequest extends React.Component{
                             </Grid>
                             </Dropdown.Item>)
                             :
-                            <h1>No New Partner Requests</h1>
+                            <h4>No New Partner Requests</h4>
                     }
             </Dropdown.Menu>
 

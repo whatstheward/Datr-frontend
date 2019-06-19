@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { Grid, Card, Image, Button, Icon, Modal, Header, Confirm } from 'semantic-ui-react';
 import DateCalendar from './DateCalendar';
-import { deleteUser } from '../services/backend';
 
 
 class ProfileContainer extends React.Component {
@@ -101,7 +100,7 @@ class ProfileContainer extends React.Component {
 
     render=()=>{
         const { open, closeOnEscape, closeOnDimmerClick } = this.state
-        if(this.state.exists == false){
+        if(this.state.exists === false){
             this.props.logOut()
             
             return <Redirect to="/"/>
@@ -142,7 +141,7 @@ class ProfileContainer extends React.Component {
                         {this.props.user.name}
                         <br/>
                         <br/>
-                        <p id="pronouns">{this.props.user.pronouns ? this.props.user.pronouns.map(pronoun => <span>{pronoun.name}</span>):null}</p>
+                        <p id="pronouns">{this.props.user.pronouns ? this.props.user.pronouns.map(pronoun => <span key={pronoun.id}>{pronoun.name}</span>):null}</p>
                         </Card.Header>
                         {this.renderProfileView()}
                         { this.props.currentUser.id === this.props.user.id ?
@@ -166,7 +165,7 @@ class ProfileContainer extends React.Component {
             }
             </Grid.Column>
             <Grid.Column width={10}>
-            {this.state.exists && this.props.currentUser.id === this.props.user.id || this.state.isPartner ?
+            {this.state.exists && (this.props.currentUser.id === this.props.user.id || this.state.isPartner) ?
             <DateCalendar userDates={this.props.dates} />
             :
                 null

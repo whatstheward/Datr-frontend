@@ -1,6 +1,37 @@
 #cartContainer{
+    display: block;
+    justify-content: center;
     margin-top: 7em;
     margin-right: 1em;
     width: 95%;
-    height: 20em;
+    min-height: 20em;
+    height: auto;
+    color: #34373f;
+    font-family: 'Bitter', serif; 
+    background-color: #ebf5ec;
+    box-shadow: 0px 0px 10px 0px #34373f;
+}
+
+#cartContainer > div.content > h5, ul {
+    font-family: 'Bitter', serif; 
+    color: #34373f;
+    list-style: none;
+}
+#cartContainer > div:nth-child(2){
+    height: 100%;
+}
+
+
+
+
+#cartContainer > div >  button{
+    width: 10em;
+    margin-bottom: 1em;
+    background: #e4877d;
+    color: #34373f;
+    font-family: 'Bitter', serif; 
+}
+
+#errors{
+    color: red;
 }

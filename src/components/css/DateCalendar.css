@@ -1,7 +1,7 @@
 #calendar{
     display: flex;
     justify-content: flex-start;
-    height: 60vh;
+    height: 80vh;
     width: 100%;
 }
 
@@ -31,6 +31,22 @@
 #dateViewCard img {
     width: 10em;
 }
+#dateViewCard > div:nth-child(1) > div.header{
+    font-family: 'Bitter', serif;
+    color: #34373f;
+}
+
+#dateViewCard > div > h4{
+    font-family: 'Bitter', serif;
+    color: #34373f;
+}
+
+#dateEvent > h4{
+    font-family: 'Bitter', serif;
+    color: #34373f;
+}
+
+
 
 #dateEvent{
     color: #34373f;
@@ -52,3 +68,4 @@
     color: #e4877d;
     font-family: 'Bitter', serif; 
 }
+

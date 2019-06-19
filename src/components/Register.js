@@ -306,7 +306,7 @@ class Register extends React.Component{
                     this.renderForm()
                 }
                 {this.state.page > 1 ?
-                    <Button id="nextBtn"  size="small" onClick={(e)=> this.handleBack(e)}>Back</Button>
+                    <Button id="backBtn"  size="small" onClick={(e)=> this.handleBack(e)}>Back</Button>
                     : 
                     null
                     }

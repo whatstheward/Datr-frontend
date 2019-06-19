@@ -1,9 +1,7 @@
 #profilePage{
     justify-content: center;
 }
-#edit{
-    width: 10em;
-}
+
 #profileBar{
     display: flex;
     justify-content: center;
@@ -11,7 +9,7 @@
 
 #profileBar > .card{
     background-color: #ebf5ec;
-    height:75vh;
+    height:80vh;
 }
 
 #profileBar > .card > .image{

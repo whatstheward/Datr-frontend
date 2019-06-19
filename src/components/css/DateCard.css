@@ -1,10 +1,18 @@
 #dateCard{
     height: 40em;
     width: 20em;
-    display: block;
+    margin: 1em 1em 5em;
+    display: flex;
     justify-content: center;
-    margin: 2em;
-    box-shadow: 0em 0em 2em rgba(0, 0, 0, 0.5);
+    color: #34373f;
+    font-family: 'Bitter', serif; 
+    background:  #34373f30;
+    box-shadow: 0px 0px 10px 0px #34373f;
+}
+
+#cardInfo > h5, #link {
+    color: #34373f;
+    font-family: 'Bitter', serif;
 }
 
 #dateCardHeader{
@@ -31,12 +39,23 @@
     object-fit: cover;
 }
 
-#cardButton{
-    margin: .5em;
-    width:auto;
-    font-size: calc(.5em + .5vh)
+#categories{
+    color: #34373f;
+    font-size: .5em;
 }
 
-#categories{
-    font-size: .5em;
+#rerollBtn{
+    width: 8em;
+    margin-bottom: 1em;
+    background: #34373f;
+    color: #e4877d;
+    font-family: 'Bitter', serif
+}
+
+#saveBtn{
+    width: 8em;
+    margin-bottom: 1em;
+    background: #e4877d;
+    color: #34373f;
+    font-family: 'Bitter', serif; 
 }

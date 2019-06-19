@@ -20,7 +20,28 @@
     display: flex;
     justify-content: center;
     overflow-x: scroll;
-    
+    color: #34373f;
+    font-family: 'Bitter', serif; 
+    background-color: #ebf5ec;
+    box-shadow: 0px 0px 10px 0px #34373f;
+}
+
+#backBtn{
+    height: 40px;
+    width: 80px;
+    margin-bottom: 2em;
+    background-color: #e4877d;
+    color: #34373f;
+    font-family: 'Bitter', serif;
+}
+
+#nextBtn{
+    height: 40px;
+    width: 80px;
+    margin-bottom: 2em;
+    background-color: #dcca78;
+    color: #34373f;
+    font-family: 'Bitter', serif;
 }
 
 #registerForm {
@@ -37,12 +58,6 @@
 
 #formContainer > form > div > label{
     float:left
-}
-
-#nextBtn {
-    height: 40px;
-    width: 80px;
-    margin-bottom: 2em;
 }
 
 #flexContainer > div > input {

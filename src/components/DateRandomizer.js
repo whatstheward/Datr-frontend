@@ -55,11 +55,11 @@ class DateRandomizer extends React.Component {
                 <Grid.Column width={4}/>
                 <Grid.Column width={8}>
                     <Container id="dateContainer">
-                        <h2>Welcome to the Date Randomizer</h2>
+                        <h1 id="header">Welcome to the Date Randomizer</h1>
                         <Form id="dateForm" onSubmit={(e)=>this.handleSubmit(e)}>
                             <Form.Group id="group">
                             <Form.Field>
-                            <label>With whom?</label>
+                            <label id="label">With whom?</label>
                             <Dropdown
                                 onChange={(e, { value })=>this.handlePartnerSelect(e, value)}
                                id="multiSelect"
@@ -74,14 +74,14 @@ class DateRandomizer extends React.Component {
                             />
                             </Form.Field>
                             <Form.Field>
-                            <label>When?</label>
+                            <label id="label">When?</label>
                             <DatePicker
                                 selected={this.state.startDate}
                                 onChange={this.handleChange}
                                 />
                             </Form.Field>
                             <Form.Field>
-                            <label>What?</label>
+                            <label id="label">What?</label>
                             <Dropdown
                                 onChange={(e, { value })=>this.handleInterestSelect(e, value)}
                                 id="multiSelect"
@@ -97,7 +97,7 @@ class DateRandomizer extends React.Component {
                             />
                             </Form.Field>
                             </Form.Group>
-                            <Button type="submit">Get Date</Button>
+                            <Button id="btn" type="submit">Get Date</Button>
                         </Form>
                         <Grid.Row id="dateCardContainer">
                         <Grid.Column id="dateColumn" width={8}>

@@ -1,37 +1,67 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { Card, Icon, Button } from 'semantic-ui-react';
 import './css/DateCheckOut.css'
-import { saveDatePlan } from '../services/backend';
+// import { saveDatePlan } from '../services/backend';
 
 class DateCheckout extends React.Component{
+
+    state={
+        errors: [],
+        patch: this.props.date.partners.length > 0
+    }
+
+    checkErrors=()=>{
+        if(this.state.errors.length > 0){
+            return(
+                <ul id="errors">
+                    {this.state.errors.map(error=> <li>{error}</li>)}
+                </ul>
+            )
+        }
+    }
 
     componentWillUnmount(){
         this.props.clearCheckOut()
     }
 
-    saveDatePlan(datePlan, method="POST"){
-        if(method === "POST"){
-        fetch(`http://localhost:3000/user_dates`,{
-            method: `${method}`,
-            headers:{
-                'Content-Type': 'application/json',
-                'auth-token': localStorage.getItem('token')
-            },
-            body: JSON.stringify({datePlan})
-        }).then(console.log)
-    }else if(method==="PATCH"){
-            let id = datePlan.id
-            fetch(`http://localhost:3000/user_dates/${id}`,{
-                method: "PUT",
+        saveDatePlan=(datePlan)=>{
+            if(!this.state.patch){
+            fetch(`http://localhost:3000/user_dates`,{
+                method: 'POST',
                 headers:{
                     'Content-Type': 'application/json',
                     'auth-token': localStorage.getItem('token')
                 },
                 body: JSON.stringify({datePlan})
-            }).then(console.log)
-        }
+            }).then(res => res.json()).then(data => {
+                if(data.errors){
+                    this.setState({errors: data.errors})
+                }else{
+                    this.props.clearCheckOut()
+                    this.props.history.push(`/profile/${this.props.currentUser.id}`)
+                }
+            })
+        }else if(this.state.patch){
+                let id = datePlan.id
+                fetch(`http://localhost:3000/user_dates/${id}`,{
+                    method: "PUT",
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'auth-token': localStorage.getItem('token')
+                    },
+                    body: JSON.stringify({datePlan})
+                }).then(res => res.json()).then(data => {
+                    if(data.errors){
+                        this.setState({errors: data.errors})
+                    }else{
+                        this.props.clearCheckOut()
+                        this.props.history.push(`/profile/${this.props.currentUser.id}`)
+                    }
+                })
+            }
+        
     }
 
     render(){
@@ -39,10 +69,11 @@ class DateCheckout extends React.Component{
             <Card id="cartContainer">
                 <Card.Header>{this.props.currentUser.name}'s date for {this.props.date.dateTime}</Card.Header>
                 <Card.Content>
-                    <h5>With: {this.props.date.partners ? this.props.date.partners.map(partner => <li>{partner.name}</li> )
+                    {this.checkErrors()}
+                    <ul>With: {this.props.date.partners ? this.props.date.partners.map(partner => <li>{partner.name}</li> )
                     :
                     null}
-                    </h5>
+                    </ul>
                     <h5>
                     <ul>
                     To: {this.props.date.activities ? this.props.date.activities.map(activity => {
@@ -55,10 +86,9 @@ class DateCheckout extends React.Component{
                     </ul>
                     </h5>
                 </Card.Content>
-                <Button className="ui button" onClick={()=>{
-                    saveDatePlan(this.props.date, this.props.date.method)
-                    this.props.clearCheckOut()
-                    this.props.history.push(`/profile/${this.props.currentUser.id}`)}}>Plan it!</Button>
+                <Card.Content extra>
+                <Button className="ui button" onClick={()=>this.saveDatePlan(this.props.date)}>Plan it!</Button>
+                </Card.Content>
             </Card>
         )
     }
