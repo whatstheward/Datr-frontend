@@ -249,7 +249,7 @@ class Register extends React.Component{
     }
 
     handleSubmit = () => {
-        fetch("http://localhost:3000/users", {
+        fetch("https://obscure-dusk-20851.herokuapp.com/users", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

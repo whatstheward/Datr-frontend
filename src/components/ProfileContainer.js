@@ -25,7 +25,7 @@ class ProfileContainer extends React.Component {
     show = () => this.setState({ modalOpen: true })
     handleConfirm = () => { 
                             this.setState({ modalOpen: false })
-                            fetch(`http://localhost:3000/users/${this.props.currentUser.id}`, {
+                            fetch(`https://obscure-dusk-20851.herokuapp.com/users/${this.props.currentUser.id}`, {
                                 method: 'DELETE',
                                     headers:{
                                         'auth-token': localStorage.getItem('token'),
@@ -62,7 +62,7 @@ class ProfileContainer extends React.Component {
         
 
         handlePartnerRequest=()=>{
-            fetch(`http://localhost:3000/relationships`,{
+            fetch(`https://obscure-dusk-20851.herokuapp.com/relationships`,{
                 method: 'POST',
                 headers:{
                     'auth-token': localStorage.getItem('token'),

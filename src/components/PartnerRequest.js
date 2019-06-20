@@ -7,7 +7,7 @@ class PartnerRequest extends React.Component{
 
     handleClick = (e, requester) => {
         if(e.target.value === 'accept'){
-            fetch(`http://localhost:3000/relationships/${requester.relationshipID}`,{
+            fetch(`https://obscure-dusk-20851.herokuapp.com/relationships/${requester.relationshipID}`,{
                 method: 'PATCH',
                 headers:{
                     'auth-token': localStorage.getItem('token'),
@@ -16,7 +16,7 @@ class PartnerRequest extends React.Component{
                 body: JSON.stringify({relationship: {confirmed: 1}})
             }).then(res=>res.json()).then(this.props.updateCurrentUser)
         }else if (e.target.value === 'decline'){
-            fetch(`http://localhost:3000/relationships/${requester.relationshipID}`,{
+            fetch(`https://obscure-dusk-20851.herokuapp.com/relationships/${requester.relationshipID}`,{
                 method: 'PATCH',
                 headers:{
                     'auth-token': localStorage.getItem('token'),

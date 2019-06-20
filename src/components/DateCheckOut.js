@@ -28,7 +28,7 @@ class DateCheckout extends React.Component{
 
         saveDatePlan=(datePlan)=>{
             if(!this.state.patch){
-            fetch(`http://localhost:3000/user_dates`,{
+            fetch(`https://obscure-dusk-20851.herokuapp.com/user_dates`,{
                 method: 'POST',
                 headers:{
                     'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ class DateCheckout extends React.Component{
             })
         }else if(this.state.patch){
                 let id = datePlan.id
-                fetch(`http://localhost:3000/user_dates/${id}`,{
+                fetch(`https://obscure-dusk-20851.herokuapp.com/user_dates/${id}`,{
                     method: "PUT",
                     headers:{
                         'Content-Type': 'application/json',
