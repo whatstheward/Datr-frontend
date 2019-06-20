@@ -141,7 +141,7 @@ class ProfileContainer extends React.Component {
                         {this.props.user.name}
                         <br/>
                         <br/>
-                        <p id="pronouns">{this.props.user.pronouns ? this.props.user.pronouns.map(pronoun => <span key={pronoun.id}>{pronoun.name}</span>):null}</p>
+                        <p id="pronouns">{this.props.user.pronouns ? this.props.user.pronouns.map(pronoun => <span key={pronoun.id}>{pronoun.name}<br/></span>):null}</p>
                         </Card.Header>
                         {this.renderProfileView()}
                         { this.props.currentUser.id === this.props.user.id ?
