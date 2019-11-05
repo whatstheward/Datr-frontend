@@ -15,10 +15,11 @@
 
 #formContainer{
     padding: 1em;
-    width: 100em;
+    width: 100%;
     height: 60vh;
     display: flex;
-    justify-content: center;
+    /* justify-content: space-evenly; */
+    padding: 1em;
     overflow-x: scroll;
     color: #34373f;
     font-family: 'Bitter', serif; 
@@ -51,16 +52,27 @@
 
 }
 
-#formContainer > form > div{
-    font-family: 'Bitter', serif;
-    margin: 1em
+#formGroup > div.field{
+    margin: 1em;
+}
+
+#formGroup > div.field > input{
+    font-family: 'Bitter';
 }
 
 #formContainer > form > div > label{
     float:left
 }
 
-#flexContainer > div > input {
+#flexContainer {
+    width: 100%;
+    padding: 1em;
+}
+#formGroup {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     margin: 1em;
 }
 
@@ -69,17 +81,18 @@
     height: 80%;
     columns:15em;
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     flex-wrap: wrap;
-    justify-content: flex-start;
-    padding: 2em 2em 0em 2em;
-    margin-top: 2em;
-    margin-bottom: -2em;
+    justify-content: center;
+    padding: 2em;
 }
 
+
+
 #checkboxes > div > div{
-    float: left;
-    margin-right: 1em;
+    /* float: left; */
+    justify-content: space-between;
+    width: 10em;
 
 }
 #selectCss{
@@ -111,7 +124,7 @@
 }
 
 #partnersContainer{
-    width:90%;
+    width:100%;
     height: 75%;
     overflow: scroll;
 }

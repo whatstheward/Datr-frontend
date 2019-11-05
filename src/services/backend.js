@@ -1,6 +1,6 @@
 import jwt_decode from 'jwt-decode'
 
-const API = 'https://obscure-dusk-20851.herokuapp.com'
+const API = 'http://obscure-dusk-20851.herokuapp.com'
 
 export function getGenders(){
     return fetch(`${API}/genders`).then(res => res.json())
@@ -30,6 +30,16 @@ export function searchUsers(query){
         }
     }).then(res => res.json())
 }
+
+export function createUser(user){
+    return fetch(`${API}/users`,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ user })})
+        
+    }
 
 export function loginUser(user){
     return fetch(`${API}/login`,{
