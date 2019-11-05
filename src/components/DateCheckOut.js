@@ -44,7 +44,6 @@ class DateCheckout extends React.Component{
                 }
             })
         }else{
-            debugger
                 let id = datePlan.id
                 fetch(`https://obscure-dusk-20851.herokuapp.com/user_dates/${id}`,{
                     method: "PUT",
