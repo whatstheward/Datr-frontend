@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "aws-sdk": "^2.563.0",
     "jwt-decode": "^2.2.0",
     "leaflet": "^1.5.1",
     "lodash": "^4.17.11",

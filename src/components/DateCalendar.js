@@ -19,6 +19,11 @@ class DateCalendar extends React.Component{
         // getCurrentUserDates(this.props.user.id).then(data => this.props.storeUserDates(data.user_dates))            
     
     }
+
+    buildDates=()=>{
+        let sortedDates = this.props.userDates.sort((a,b)=>(new Date(b.time) < new Date(a.time)) ? 1 : -1)
+        return sortedDates.map((date, i) => <DateView date={date} key={i} />)
+    }
     
     
 
@@ -27,7 +32,8 @@ class DateCalendar extends React.Component{
             return(
             <div id="carouselFrame">
                 <div id="calendar">
-                    {this.props.userDates.length > 0 ? this.props.userDates.map(date=> <DateView date={date}/>) 
+                    {this.props.userDates.length > 0 ? 
+                    this.buildDates() 
                     : 
                     null}
                 </div>

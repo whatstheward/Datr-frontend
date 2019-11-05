@@ -15,7 +15,7 @@ class Navbar extends React.Component{
 
     logOut=()=>{
         localStorage.clear()
-        this.props.dispatch({type: 'LOG_OUT', data: !!localStorage.getItem('token')})
+        this.props.logUserOut()
     }
 
     loggedIn = () => {
@@ -58,7 +58,8 @@ class Navbar extends React.Component{
     const mapDispatchToProps = dispatch => {
         return {
         storeViewUser: (data) => dispatch({type:"FETCH_USER_PROFILE", data: data}),
-        clearDateState: () => dispatch({type:"SAVE_DATE"})
+        clearDateState: () => dispatch({type:"SAVE_DATE"}),
+        logUserOut: () => dispatch({type: 'LOG_OUT', data: !!localStorage.getItem('token')})
         }
     }
 

@@ -15,11 +15,13 @@ const DateView = (props) => {
             {props.date.time.substring(props.date.time.indexOf(',')+1)}
             </Card.Header>
             <h4>
-                With: {props.date.partners.map(partner=> <li>{partner.name}</li>)}
+                With: {props.date.partners.map((partner, i)=> {return(<li key={i}>{
+                    partner.name}
+                    </li>)})}
             </h4>
-                {props.date.events.map(event => {
+                {props.date.events.map((event, i) => {
                     return(
-                        <Segment id="dateEvent">
+                        <Segment key={i} id="dateEvent">
                         <h4>{event.name}</h4>
                         <Image src={event.image_url} alt={event.name} />
                         </Segment>

@@ -1,6 +1,6 @@
 import jwt_decode from 'jwt-decode'
 
-const API = 'http://obscure-dusk-20851.herokuapp.com'
+const API = 'https://obscure-dusk-20851.herokuapp.com'
 
 export function getGenders(){
     return fetch(`${API}/genders`).then(res => res.json())

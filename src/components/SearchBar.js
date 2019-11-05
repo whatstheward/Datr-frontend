@@ -17,7 +17,7 @@ class SearchBar extends React.Component {
         }
     handleResultSelect = (e, { result }) => {getUserProfile(result.id).then(data => {
                                             this.setState({redirect: true})
-                                            this.props.storeviewuser(data)
+                                            this.props.storeViewUser(data)
                                             this.props.history.push(`/profile/${this.props.searchresult.id}`)})
                                             }
 
@@ -34,8 +34,8 @@ class SearchBar extends React.Component {
             <Search 
             loading={this.state.isLoading}
             onResultSelect={this.handleResultSelect}
-            onSearchChange={_.debounce(this.handleSearchChange, 500, {
-            leading: true,
+            onSearchChange={_.debounce(this.handleSearchChange, 100, {
+            loading: true,
             })}
             results={this.state.results}
             value={this.state.value}
@@ -71,7 +71,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch =>{
     return{
-        storeviewuser: data => dispatch({type:"FETCH_USER_PROFILE", data: data})
+        storeViewUser: data => dispatch({type:"FETCH_USER_PROFILE", data: data})
     }
 }
 

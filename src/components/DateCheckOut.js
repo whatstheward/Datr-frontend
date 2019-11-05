@@ -27,7 +27,7 @@ class DateCheckout extends React.Component{
     }
 
         saveDatePlan=(datePlan)=>{
-            if(!this.state.patch){
+            if(datePlan.id){
             fetch(`https://obscure-dusk-20851.herokuapp.com/user_dates`,{
                 method: 'POST',
                 headers:{
@@ -43,7 +43,8 @@ class DateCheckout extends React.Component{
                     this.props.history.push(`/profile/${this.props.currentUser.id}`)
                 }
             })
-        }else if(this.state.patch){
+        }else{
+            debugger
                 let id = datePlan.id
                 fetch(`https://obscure-dusk-20851.herokuapp.com/user_dates/${id}`,{
                     method: "PUT",
