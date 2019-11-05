@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { Card, Icon, Button } from 'semantic-ui-react';
 import './css/DateCheckOut.css'
-// import { saveDatePlan } from '../services/backend';
+import { saveDatePlan } from '../services/backend';
 
 class DateCheckout extends React.Component{
 
@@ -87,7 +87,7 @@ class DateCheckout extends React.Component{
                     </h5>
                 </Card.Content>
                 <Card.Content extra>
-                <Button className="ui button" onClick={()=>this.saveDatePlan(this.props.date)}>Plan it!</Button>
+                <Button className="ui button" onClick={()=>saveDatePlan(this.props.date)}>Plan it!</Button>
                 </Card.Content>
             </Card>
         )

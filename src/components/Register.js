@@ -4,7 +4,7 @@ import _ from 'lodash'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Grid, Card, Form, Dropdown, Button, Feed, Image, Icon } from 'semantic-ui-react';
-import { getGenders, getOrientations, getPronouns, getInterests, getUsers, getCurrentUser } from '../services/backend'
+import { getGenders, getOrientations, getPronouns, getInterests, getUsers, getCurrentUser, createUser} from '../services/backend'
 import Avatar from 'react-avatar-edit'
 
 class Register extends React.Component{
@@ -33,6 +33,7 @@ class Register extends React.Component{
         pronouns: [],
         interests: [],
         partners: [],
+        password: "",
         preview: null,
         page: 1,
         submitted: false,
@@ -51,7 +52,7 @@ class Register extends React.Component{
     renderPageOne = () =>{
         return (
         <div id="flexContainer">
-        <Form.Group>
+        <div id="formGroup">
         <Form.Field>
             <label>First Name</label>
             <input onChange={(e)=>this.handleChange(e)} type="text" name="firstName" placeholder="First Name" />
@@ -70,8 +71,8 @@ class Register extends React.Component{
                 {_.range(18, 100).map(int => <option value={int}>{int}</option>)}
             </select>
         </Form.Field>
-        </Form.Group>
-        <Form.Group>
+        </div>
+        <div id="formGroup">
         <Form.Field>
             <Dropdown
                 onChange={(e, { value })=>this.handleGenderSelect(e, value)}
@@ -115,8 +116,8 @@ class Register extends React.Component{
             })}
             />
         </Form.Field>
-        </Form.Group>
-        <Form.Group>
+        </div>
+        <div id ="formGroup">
         <Form.Field>
             <label>Email</label>
             <input onChange={(e)=>this.handleChange(e)} type="text" name="email" placeholder="Email" />
@@ -133,7 +134,7 @@ class Register extends React.Component{
             <label>Zip Code</label>
             <input onChange={(e)=>this.handleChange(e)} type="text" name="zip_code" placeholder="Password" />
         </Form.Field>
-        </Form.Group>
+        </div>
         </div> )       
     } 
 
@@ -249,27 +250,7 @@ class Register extends React.Component{
     }
 
     handleSubmit = () => {
-        fetch("https://obscure-dusk-20851.herokuapp.com/users", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                age: this.state.age,
-                username: this.state.username,
-                first_name: this.state.firstName,
-                last_name: this.state.lastName,
-                email: this.state.email,
-                zip_code: this.state.zip_code,
-                image: this.state.preview,
-                genders: this.state.genders.value,
-                orientations: this.state.orientations.value,
-                pronouns: this.state.pronouns.value,
-                partners: this.state.partners,
-                password: this.state.password,
-                interests: this.state.interests
-            })
-        }).then(res => res.json())
+        createUser(this.state).then(res => res.json())
         .then(data=>{
             if(data.errors){
                 this.setState({errors: data.errors})
@@ -297,8 +278,8 @@ class Register extends React.Component{
         }else{
         return(
             <Grid>
-                <Grid.Column width={4}></Grid.Column>
-                <Grid.Column id="mainColumn" width={8}>
+                <Grid.Column width={3}></Grid.Column>
+                <Grid.Column id="mainColumn" width={10}>
                 <Card id="formContainer" color="red">
                     <Form id="registerForm" onSubmit={(e)=>this.handleSubmit(e)}>
                     {this.checkForErrors()}
@@ -318,7 +299,7 @@ class Register extends React.Component{
                     </Form>
                 </Card>
                 </Grid.Column>
-                <Grid.Column width={4}></Grid.Column>
+                <Grid.Column width={3}></Grid.Column>
 
             </Grid>
         )
