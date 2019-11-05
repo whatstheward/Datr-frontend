@@ -25,7 +25,7 @@ class LoginForm extends React.Component{
                 this.setState({errors: data.errors})
             }else{
             localStorage.setItem("token", data.token)}})
-        .then(this.props.addUser)
+            .then(this.props.addUser)
     }
 
     checkErrors = () => {

@@ -19,6 +19,10 @@ class DateCalendar extends React.Component{
     
     }
 
+    componentWillUnmount(){
+        this.props.clearUserDates()
+    }
+
     buildDates=()=>{
         let sortedDates = this.props.userDates.sort((a,b)=>(new Date(b.time) < new Date(a.time)) ? 1 : -1)
         return sortedDates.map((date, i) => <DateView date={date} key={i} />)
@@ -47,7 +51,8 @@ class DateCalendar extends React.Component{
 }
 const mapDispatchToProps = dispatch => {
     return{
-        storeUserDates: (data) => dispatch({type:"FETCH_USER_DATES", data: data})
+        storeUserDates: (data) => dispatch({type:"FETCH_USER_DATES", data: data}),
+        clearUserDates:() => dispatch({type: "CLEAR_USER_DATES"})
     }
 }
 

@@ -1,6 +1,6 @@
 import jwt_decode from 'jwt-decode'
 
-const API = 'http://obscure-dusk-20851.herokuapp.com'
+const API = 'https://obscure-dusk-20851.herokuapp.com'
 
 export function getGenders(){
     return fetch(`${API}/genders`).then(res => res.json())
@@ -105,15 +105,14 @@ export function saveDatePlan(datePlan){
         body: JSON.stringify({datePlan})
     }).then(res => res.json()).then(data => {return data})
 }else{
-        let id = datePlan.id
-        fetch(`${API}/user_dates/${id}`,{
+        fetch(`${API}/user_dates/${datePlan.id}`,{
             method: "PUT",
             headers:{
                 'Content-Type': 'application/json',
                 'auth-token': localStorage.getItem('token')
             },
             body: JSON.stringify({datePlan})
-        }).then(res => res.json())
+        }).then(res => {res.json()})
     }
 }
 
@@ -166,4 +165,15 @@ export function updatePartnerRequest(request, update){
             },
         body: JSON.stringify({relationship: {confirmed: update}})
     }).then(res=>res.json())
+}
+
+export function updateRating(id, rating){
+    fetch(`${API}/update_rating/${id}`, {
+        method: "PUT",
+        headers:{
+            'auth-token': localStorage.getItem('token'),
+            'Content-Type': 'application/json'
+            },
+        body: JSON.stringify({datePlan: {rating: rating}})
+    }).then(res=> res.json())
 }

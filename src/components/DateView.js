@@ -4,15 +4,18 @@ import { Card, Image, Segment, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom'
 import { deleteUserDate } from '../services/backend';
 import EditBtn from './EditButton'
+import RatingBar from './RatingBar';
 
 
 const DateView = (props) => {
 
     const datePast = () => new Date(props.date.time) <  new Date()
+
     return(
         <Card id="dateViewCard">
         <Card.Content>
-            <Card.Header>Date on {props.date.time.substring(0, props.date.time.indexOf(','))}
+            <Card.Header>
+            Date on
             <br/>
             {props.date.time.substring(props.date.time.indexOf(',')+1)}
             </Card.Header>
@@ -29,9 +32,12 @@ const DateView = (props) => {
                         </Segment>
                 )})}
         </Card.Content>
+            <RatingBar rating={props.date.rating} datePast={datePast()} date={props.date}/>
         { props.currentUser.id === props.user.id ?
         <Card.Content extra>
-         { datePast() ? null :
+            { datePast() ? 
+            null 
+            :
             <EditBtn action={props.editDate} item={props.date} />}
         <Button id="deleteBtn" onClick={()=>{ 
             props.deleteUserDate(props.date.id)

@@ -24,7 +24,7 @@ class App extends React.Component{
       }
       <Switch>
         <Route exact path="/" component={ LoginForm } />
-        <Route path="/register" render={() => this.props.currentUser && this.props.loggedIn ? 
+        <Route path="/register" render={() => this.props.loggedIn ? 
                                               <Redirect to="/profile"/>
                                               :
                                               <Register /> } />
@@ -48,7 +48,7 @@ class App extends React.Component{
 
 const mapStateToProps = (state) => {
   return{
-      loggedIn: state.session.token,
+      loggedIn: state.session.token
   }
 }
 

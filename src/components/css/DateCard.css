@@ -10,6 +10,9 @@
     box-shadow: 0px 0px 10px 0px #34373f;
 }
 
+.rating:hover{
+    transform: scale(1.25);
+}
 #cardInfo > h5, #link {
     color: #34373f;
     font-family: 'Bitter', serif;

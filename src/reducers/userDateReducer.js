@@ -5,6 +5,9 @@ export default (state={currentDates:[]}, action)=>{
             if(newState.length > 1){
             newState.sort((a,b)=>(a.time > b.time) ? 1 : ((b.time>a.time) ? -1 : 0))}
             return {...state, currentDates: newState }
+        case "CLEAR_USER_DATES":
+            const cleanState = []
+            return {currentDates: cleanState}
         case "DELETE_USER_DATE":
             let newCurrentDates = state.currentDates.filter(date=> date.id !== action.data)
             return {...state, currentDates: newCurrentDates}
