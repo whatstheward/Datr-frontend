@@ -3,10 +3,12 @@ import { connect} from 'react-redux'
 import { Card, Image, Segment, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom'
 import { deleteUserDate } from '../services/backend';
+import EditBtn from './EditButton'
 
 
 const DateView = (props) => {
 
+    const datePast = () => new Date(props.date.time) <  new Date()
     return(
         <Card id="dateViewCard">
         <Card.Content>
@@ -29,10 +31,8 @@ const DateView = (props) => {
         </Card.Content>
         { props.currentUser.id === props.user.id ?
         <Card.Content extra>
-        <Link id="editBtn" to="/date_randomizer" 
-            className="ui button"
-            onClick={()=>{
-            props.editDate(props.date)}}>Edit</Link>
+         { datePast() ? null :
+            <EditBtn action={props.editDate} item={props.date} />}
         <Button id="deleteBtn" onClick={()=>{ 
             props.deleteUserDate(props.date.id)
             deleteUserDate(props.date.id)}}>Delete</Button>

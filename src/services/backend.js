@@ -94,17 +94,17 @@ export function getUserProfile(id){
 
 
 
-export function saveDatePlan(datePlan, method="POST"){
-    if(method === "POST"){
+export function saveDatePlan(datePlan){
+    if(!datePlan.id){
     fetch(`${API}/user_dates`,{
-        method: `${method}`,
+        method: `POST`,
         headers:{
             'Content-Type': 'application/json',
             'auth-token': localStorage.getItem('token')
         },
         body: JSON.stringify({datePlan})
     }).then(res => res.json()).then(data => {return data})
-}else if(method==="PATCH"){
+}else{
         let id = datePlan.id
         fetch(`${API}/user_dates/${id}`,{
             method: "PUT",

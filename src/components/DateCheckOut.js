@@ -26,43 +26,11 @@ class DateCheckout extends React.Component{
         this.props.clearCheckOut()
     }
 
-        saveDatePlan=(datePlan)=>{
-            if(datePlan.id){
-            fetch(`https://obscure-dusk-20851.herokuapp.com/user_dates`,{
-                method: 'POST',
-                headers:{
-                    'Content-Type': 'application/json',
-                    'auth-token': localStorage.getItem('token')
-                },
-                body: JSON.stringify({datePlan})
-            }).then(res => res.json()).then(data => {
-                if(data.errors){
-                    this.setState({errors: data.errors})
-                }else{
-                    this.props.clearCheckOut()
-                    this.props.history.push(`/profile/${this.props.currentUser.id}`)
-                }
-            })
-        }else{
-                let id = datePlan.id
-                fetch(`https://obscure-dusk-20851.herokuapp.com/user_dates/${id}`,{
-                    method: "PUT",
-                    headers:{
-                        'Content-Type': 'application/json',
-                        'auth-token': localStorage.getItem('token')
-                    },
-                    body: JSON.stringify({datePlan})
-                }).then(res => res.json()).then(data => {
-                    if(data.errors){
-                        this.setState({errors: data.errors})
-                    }else{
-                        this.props.clearCheckOut()
-                        this.props.history.push(`/profile/${this.props.currentUser.id}`)
-                    }
-                })
-            }
-        
+    handleSave=()=>{
+        saveDatePlan(this.props.date)
+        this.props.history.push(`/profile/${this.props.currentUser.id}`)
     }
+
 
     render(){
         return(
@@ -87,7 +55,7 @@ class DateCheckout extends React.Component{
                     </h5>
                 </Card.Content>
                 <Card.Content extra>
-                <Button className="ui button" onClick={()=>saveDatePlan(this.props.date)}>Plan it!</Button>
+                <Button className="ui button" onClick={()=>this.handleSave()}>Plan it!</Button>
                 </Card.Content>
             </Card>
         )

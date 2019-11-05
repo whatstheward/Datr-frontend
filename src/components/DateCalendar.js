@@ -7,7 +7,6 @@ import { getCurrentUserDates } from '../services/backend';
 class DateCalendar extends React.Component{ 
 
     componentDidMount(){
-            
         getCurrentUserDates(this.props.user.id).then(data => this.props.storeUserDates(data.user_dates))
     }
 
